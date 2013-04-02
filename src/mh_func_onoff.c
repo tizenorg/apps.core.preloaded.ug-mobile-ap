@@ -236,23 +236,6 @@ static void __disable_tethering_by_ind(mh_appdata_t *ad, tethering_disabled_caus
 	return;
 }
 
-static void __recover_wifi_station_mode(void)
-{
-	DBG("+\n");
-
-	if (__get_vconf_prev_wifi_state() == false) {
-		DBG("No need to recover wifi station mode\n");
-		return;
-	}
-
-	if (_turn_on_wifi() != 0)
-		ERR("_turn_on_wifi is failed\n");
-	if (vconf_set_bool(VCONF_MOBILE_AP_PREV_WIFI_STATUS, 0) < 0)
-		ERR("vconf_set_bool failed\n");
-
-	return;
-}
-
 /* Wi-Fi Direct callback */
 static void _wifi_direct_state_cb(int error_code, wifi_direct_device_state_e state, void *user_data)
 {
@@ -297,7 +280,28 @@ static void __wifi_activated_cb(wifi_error_e result, void *user_data)
 {
 	__MOBILE_AP_FUNC_ENTER__;
 
+	if (user_data == NULL) {
+		ERR("The param is NULL\n");
+		return;
+	}
+
+	mh_appdata_t *ad = (mh_appdata_t *)user_data;
+	int ret = 0;
+
+	if (result != WIFI_ERROR_NONE) {
+		ERR("__wifi_activated_cb error : %d\n", result);
+		_update_main_view(ad);
+		return;
+	}
+
 	DBG("Wi-Fi on is done\n");
+
+	ret = tethering_enable(ad->handle, TETHERING_TYPE_WIFI);
+	if (ret != TETHERING_ERROR_NONE) {
+		ERR("wifi tethering on is failed : %d\n", ret);
+		return;
+	}
+	_update_main_view(ad);
 
 	__MOBILE_AP_FUNC_EXIT__;
 	return;
@@ -346,6 +350,14 @@ void _enabled_cb(tethering_error_e result, tethering_type_e type, bool is_reques
 		return;
 	}
 
+	if (result == TETHERING_ERROR_NONE) {
+		int ret = vconf_set_int(
+				VCONFKEY_MOBILE_HOTSPOT_WIFI_STATE,
+				VCONFKEY_MOBILE_HOTSPOT_WIFI_ON);
+		if (ret < 0)
+			ERR("vconf_set_int() is failed : %d\n", ret);
+	}
+
 	mh_appdata_t *ad = (mh_appdata_t *)user_data;
 
 	ad->main.need_recover_wifi_tethering = false;
@@ -378,6 +390,14 @@ void _disabled_cb(tethering_error_e result, tethering_type_e type, tethering_dis
 		return;
 	}
 
+	if (result == TETHERING_ERROR_NONE) {
+		int ret = vconf_set_int(
+				VCONFKEY_MOBILE_HOTSPOT_WIFI_STATE,
+				VCONFKEY_MOBILE_HOTSPOT_WIFI_OFF);
+		if (ret < 0)
+			ERR("vconf_set_int() is failed : %d\n", ret);
+	}
+
 	mh_appdata_t *ad = (mh_appdata_t *)user_data;
 
 	if (ad->main.need_recover_wifi_tethering == true) {
@@ -405,9 +425,6 @@ void _disabled_cb(tethering_error_e result, tethering_type_e type, tethering_dis
 	}
 
 	DBG("Tethering [%d] is disabled by reqeust\n", type);
-	if (type == TETHERING_TYPE_WIFI) {
-		__recover_wifi_station_mode();
-	}
 
 	_update_main_view(ad);
 
@@ -474,6 +491,12 @@ int _handle_wifi_onoff_change(mh_appdata_t *ad)
 					_("IDS_MOBILEAP_POP_DISABLING_TETHERING_WILL_PREVENT_LINKED_DEVICES_FROM_ACCESSING_THE_INTERNET_CONTINUE_Q"));
 			_create_popup(ad);
 		} else {
+			ret = vconf_set_int(
+					VCONFKEY_MOBILE_HOTSPOT_WIFI_STATE,
+					VCONFKEY_MOBILE_HOTSPOT_WIFI_PENDING_OFF);
+			if (ret < 0)
+				ERR("vconf_set_int() is failed : %d\n", ret);
+
 			ret = tethering_disable(ad->handle, TETHERING_TYPE_WIFI);
 			if (ret != TETHERING_ERROR_NONE) {
 				ERR("wifi tethering off is failed : %d\n", ret);
@@ -578,11 +601,11 @@ int _turn_off_wifi(mh_appdata_t *ad)
 	return 0;
 }
 
-int _turn_on_wifi(void)
+int _turn_on_wifi(mh_appdata_t *ad)
 {
 	int ret;
 
-	ret = wifi_activate(__wifi_activated_cb, NULL);
+	ret = wifi_activate(__wifi_activated_cb, (void *)ad);
 	if (ret != WIFI_ERROR_NONE) {
 		ERR("wifi_activate() is failed : %d\n", ret);
 		return -1;

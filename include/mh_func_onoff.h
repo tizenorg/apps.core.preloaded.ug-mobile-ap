@@ -38,7 +38,7 @@ int _handle_wifi_onoff_change(mh_appdata_t *ad);
 int _handle_bt_onoff_change(mh_appdata_t *ad);
 int _handle_usb_onoff_change(mh_appdata_t *ad);
 int _turn_off_wifi(mh_appdata_t *ad);
-int _turn_on_wifi(void);
+int _turn_on_wifi(mh_appdata_t *ad);
 bool _is_wifi_direct_on(void);
 int _turn_off_wifi_direct(mh_appdata_t *ad);
 
