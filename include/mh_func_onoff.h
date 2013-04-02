@@ -41,6 +41,7 @@ int _turn_off_wifi(mh_appdata_t *ad);
 int _turn_on_wifi(mh_appdata_t *ad);
 bool _is_wifi_direct_on(void);
 int _turn_off_wifi_direct(mh_appdata_t *ad);
+int _turn_on_bt(mh_appdata_t *ad);
 
 #ifdef __cplusplus
 }

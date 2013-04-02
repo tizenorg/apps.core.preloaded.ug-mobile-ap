@@ -164,6 +164,10 @@ static int __create_bt_tethering_on_popup(mh_appdata_t *ad)
 {
 	char *str;
 
+	int bt_ret = bt_initialize();
+	if (bt_ret != BT_ERROR_NONE)
+		ERR("bt_initialize is failed : %d\n", bt_ret);
+
 	str = malloc(MH_LABEL_LENGTH_MAX);
 	snprintf(str, MH_LABEL_LENGTH_MAX,
 			_("IDS_ST_BODY_TETHERING_CONSUMES_MORE_BATTERY_POWER_AND_INCREASES_YOUR_DATA_USAGE_THE_MAXIMUM_NUMBER_OF_TETHERED_DEVICES_ALLOWED_IS_PD"),
@@ -677,4 +681,66 @@ int _turn_off_wifi_direct(mh_appdata_t *ad)
 	}
 
 	return 0;
+}
+
+static void __bt_adapter_state_changed(int result,
+		bt_adapter_state_e adapter_state, void *user_data)
+{
+	int ret;
+	if (user_data == NULL) {
+		ERR("Invalid param\n");
+		return;
+	}
+
+	mh_appdata_t *ad = (mh_appdata_t *)user_data;
+
+	if (result != BT_ERROR_NONE) {
+		ERR("BT Adapter operation is failed : %d\n", result);
+		return;
+	}
+
+	DBG("BT Adapter is %s\n", adapter_state == BT_ADAPTER_ENABLED ?
+			"enabled" : "disabled");
+	if (adapter_state == BT_ADAPTER_DISABLED)
+		return;
+
+	ret = tethering_enable(ad->handle, TETHERING_TYPE_BT);
+	if (ret != TETHERING_ERROR_NONE) {
+		ERR("Error enable bt tethering : %d\n", ret);
+		_update_bt_item(ad, MH_STATE_NONE);
+	}
+	bt_adapter_unset_state_changed_cb();
+}
+
+int _turn_on_bt(mh_appdata_t *ad)
+{
+	int ret = BT_ERROR_NONE;
+	bt_adapter_state_e adapter_state = BT_ADAPTER_DISABLED;
+
+	DBG("_turn_on_bt +\n");
+	ret = bt_adapter_get_state(&adapter_state);
+	if (ret != BT_ERROR_NONE) {
+		ERR("bt_adapter_get_state is failed : %d\n", ret);
+		return ret;
+	}
+
+	if (adapter_state == BT_ADAPTER_ENABLED) {
+		DBG("Bluetooth already enabled\n");
+		return ret;
+	}
+
+	ret = bt_adapter_set_state_changed_cb(
+			__bt_adapter_state_changed, (void *)ad);
+	if (ret != BT_ERROR_NONE) {
+		ERR("bt_adapter_set_state_changed_cb is failed : %d\n", ret);
+		return ret;
+	}
+
+	ret = bt_adapter_enable();
+	if (ret != BT_ERROR_NONE) {
+		ERR("bt_adapter_enable is failed : %d\n", ret);
+		bt_adapter_unset_state_changed_cb();
+	}
+	DBG("_turn_on_bt -\n");
+	return ret;
 }

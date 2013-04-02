@@ -94,6 +94,7 @@ static void __popup_resp_yes(void *data, Evas_Object *obj, void *event_info)
 	}
 
 	mh_appdata_t *ad = (mh_appdata_t *)data;
+	bt_adapter_state_e adapter_state = BT_ADAPTER_DISABLED;
 	bool wifi_state;
 	int ret = 0;
 
@@ -143,10 +144,22 @@ static void __popup_resp_yes(void *data, Evas_Object *obj, void *event_info)
 		break;
 
 	case MH_POP_BT_ON_CONF:
-		ret = tethering_enable(ad->handle, TETHERING_TYPE_BT);
-		if (ret != TETHERING_ERROR_NONE) {
-			ERR("Error enable bt tethering : %d\n", ret);
-			_update_bt_item(ad, MH_STATE_NONE);
+		ret = bt_adapter_get_state(&adapter_state);
+		if (ret != BT_ERROR_NONE)
+			ERR("bt_adapter_get_state is failed : %d\n", ret);
+
+		if (adapter_state == BT_ADAPTER_DISABLED) {
+			DBG("bluetooth adapter is disable, turn on first");
+			ret = _turn_on_bt(ad);
+			if (ret != BT_ERROR_NONE)
+				ERR("bt_adapter_enable is failed : %d\n", ret);
+		} else {
+			DBG("bluetooth adapter is enable");
+			ret = tethering_enable(ad->handle, TETHERING_TYPE_BT);
+			if (ret != TETHERING_ERROR_NONE) {
+				ERR("Error enable bt tethering : %d\n", ret);
+				_update_bt_item(ad, MH_STATE_NONE);
+			}
 		}
 		break;
 

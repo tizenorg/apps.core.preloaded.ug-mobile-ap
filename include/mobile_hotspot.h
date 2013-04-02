@@ -50,6 +50,7 @@ extern "C" {
 #include <sim.h>
 #include <tethering.h>
 #include <dlog.h>
+#include <bluetooth.h>
 
 #define MH_TEXT_DOMAIN				PACKAGE
 #define MH_LOCALEDIR				LOCALEDIR
