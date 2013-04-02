@@ -38,6 +38,7 @@ rm -rf %{buildroot}
 
 %post
 /usr/bin/vconftool set -t bool db/private/libug-setting-mobileap-efl/prev_wifi_status 0 -u 5000 -f
+/usr/bin/vconftool set -t int memory/mobile_hotspot/wifi_state 0 -g 6519 -i -f
 mkdir -p /usr/ug/bin/
 ln -sf /usr/bin/ug-client /usr/ug/bin/setting-mobileap-efl
 
