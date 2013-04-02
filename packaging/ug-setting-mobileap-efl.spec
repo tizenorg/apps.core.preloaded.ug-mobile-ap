@@ -20,6 +20,7 @@ BuildRequires: pkgconfig(capi-network-tethering)
 BuildRequires: pkgconfig(capi-network-connection)
 BuildRequires: pkgconfig(capi-network-wifi)
 BuildRequires: pkgconfig(capi-telephony-sim)
+BuildRequires: pkgconfig(capi-network-bluetooth)
 BuildRequires: pkgconfig(notification)
 
 %description
