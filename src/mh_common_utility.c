@@ -104,9 +104,15 @@ static void __popup_resp_yes(void *data, Evas_Object *obj, void *event_info)
 	switch (popup_type) {
 	case MH_POP_WIFI_ON_CONF:
 		wifi_is_activated(&wifi_state);
-		if (wifi_state == true) {
-			if (_turn_off_wifi(ad) != 0) {
-				ERR("_turn_off_wifi is failed\n");
+		DBG("wifi_state : %d\n", wifi_state);
+		if (wifi_state == false) {
+			ret = vconf_set_int(VCONFKEY_MOBILE_HOTSPOT_WIFI_STATE,
+					VCONFKEY_MOBILE_HOTSPOT_WIFI_PENDING_ON);
+			if (ret < 0)
+				ERR("vconf_set_int() is failed : %d\n", ret);
+
+			if (_turn_on_wifi(ad) != 0) {
+				ERR("_turn_on_wifi is failed\n");
 				_update_wifi_item(ad, MH_STATE_NONE);
 			}
 		} else if (_is_wifi_direct_on() == true) {
@@ -124,6 +130,11 @@ static void __popup_resp_yes(void *data, Evas_Object *obj, void *event_info)
 		break;
 
 	case MH_POP_WIFI_OFF_CONF:
+		ret = vconf_set_int(VCONFKEY_MOBILE_HOTSPOT_WIFI_STATE,
+				VCONFKEY_MOBILE_HOTSPOT_WIFI_PENDING_OFF);
+		if (ret < 0)
+			ERR("vconf_set_int() is failed : %d\n", ret);
+
 		ret = tethering_disable(ad->handle, TETHERING_TYPE_WIFI);
 		if (ret != TETHERING_ERROR_NONE) {
 			ERR("wifi tethering off is failed : %d\n", ret);
