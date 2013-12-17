@@ -30,6 +30,9 @@ Tethering UI Gadget Library
 
 %build
 cmake . -DCMAKE_INSTALL_PREFIX="%{_ugdir}"
+%ifarch %arm
+CFLAGS=" -DTIZEN_ARM"
+%endif
 make %{?jobs:-j%jobs}
 
 %install

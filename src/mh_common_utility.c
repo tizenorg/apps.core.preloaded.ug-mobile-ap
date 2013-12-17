@@ -104,7 +104,11 @@ static void __popup_resp_yes(void *data, Evas_Object *obj, void *event_info)
 	switch (popup_type) {
 	case MH_POP_WIFI_ON_CONF:
 		wifi_is_activated(&wifi_state);
+#ifdef TIZEN_ARM
+		if (wifi_state == false) {
+#else
 		if (wifi_state == true) {
+#endif
 			if (_turn_off_wifi(ad) != 0) {
 				ERR("_turn_off_wifi is failed\n");
 				_update_wifi_item(ad, MH_STATE_NONE);
