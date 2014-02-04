@@ -9,6 +9,7 @@ Group:      TO_BE/FILLED_IN
 License:    Flora License Version 1.0
 Source0:    %{name}-%{version}.tar.gz
 Requires(post): /usr/bin/vconftool
+Requires(post): tizen-platform-config
 BuildRequires: cmake
 BuildRequires: edje-bin
 BuildRequires: gettext-tools
@@ -22,6 +23,7 @@ BuildRequires: pkgconfig(capi-network-wifi)
 BuildRequires: pkgconfig(capi-telephony-sim)
 BuildRequires: pkgconfig(capi-network-bluetooth)
 BuildRequires: pkgconfig(notification)
+BuildRequires: pkgconfig(x11)
 
 %description
 Tethering UI Gadget Library
@@ -38,7 +40,9 @@ rm -rf %{buildroot}
 %make_install
 
 %post
-/usr/bin/vconftool set -t bool db/private/libug-setting-mobileap-efl/prev_wifi_status 0 -u 5000 -f
+source /etc/tizen-platform.conf
+GID=$(getent group $TZ_SYS_USER_GROUP | cut -f 3 -d :)
+/usr/bin/vconftool set -t bool db/private/libug-setting-mobileap-efl/prev_wifi_status 0 -g $GID -f
 /usr/bin/vconftool set -t int memory/mobile_hotspot/wifi_state 0 -g 6519 -i -f
 mkdir -p /usr/ug/bin/
 ln -sf /usr/bin/ug-client /usr/ug/bin/setting-mobileap-efl
