@@ -12,6 +12,7 @@ Requires(post): /usr/bin/vconftool
 BuildRequires: cmake
 BuildRequires: edje-bin
 BuildRequires: gettext-tools
+BuildRequires: libtzplatform-config-devel
 BuildRequires: pkgconfig(elementary)
 BuildRequires: pkgconfig(evas)
 BuildRequires: pkgconfig(ui-gadget-1)
@@ -38,7 +39,8 @@ rm -rf %{buildroot}
 %make_install
 
 %post
-/usr/bin/vconftool set -t bool db/private/libug-setting-mobileap-efl/prev_wifi_status 0 -u 5000 -f
+GID=$(getent group %{TZ_SYS_USER_GROUP} | cut -f 3 -d :)
+/usr/bin/vconftool set -t bool db/private/libug-setting-mobileap-efl/prev_wifi_status 0 -g $GID -f
 /usr/bin/vconftool set -t int memory/mobile_hotspot/wifi_state 0 -g 6519 -i -f
 mkdir -p /usr/ug/bin/
 ln -sf /usr/bin/ug-client /usr/ug/bin/setting-mobileap-efl
