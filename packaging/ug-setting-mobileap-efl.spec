@@ -1,3 +1,5 @@
+%bcond_with x
+
 %define _usrdir /usr
 %define _ugdir  %{_usrdir}/ug
 
@@ -22,6 +24,10 @@ BuildRequires: pkgconfig(capi-network-wifi)
 BuildRequires: pkgconfig(capi-telephony-sim)
 BuildRequires: pkgconfig(capi-network-bluetooth)
 BuildRequires: pkgconfig(notification)
+
+%if %{with x}
+BuildRequires:pkgconfig(x11)
+%endif
 
 %description
 Tethering UI Gadget Library
