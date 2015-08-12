@@ -93,25 +93,7 @@ static bool __is_connected_ethernet_net(mh_appdata_t *ad)
 static bool __is_connected_cellular_net(mh_appdata_t *ad)
 {
 	connection_cellular_state_e cellular_state = CONNECTION_CELLULAR_STATE_OUT_OF_SERVICE;
-	sim_state_e sim_state = SIM_STATE_UNAVAILABLE;
 	int ret;
-
-	/* Check SIM state */
-	ret = sim_get_state(&sim_state);
-	if (ret != SIM_ERROR_NONE) {
-		ERR("sim_get_state() is failed : %d\n", ret);
-		_prepare_popup(MH_POP_INFORMATION,
-				_("IDS_MOBILEAP_POP_INSERT_SIM_CARD_AND_RESTART_DEVICE_TO_USE_TETHERING"));
-		_create_popup(ad);
-		return false;
-	}
-	DBG("SIM State : %d\n", sim_state);
-	if (sim_state != SIM_STATE_AVAILABLE) {
-		_prepare_popup(MH_POP_INFORMATION,
-				_("IDS_MOBILEAP_POP_INSERT_SIM_CARD_AND_RESTART_DEVICE_TO_USE_TETHERING"));
-		_create_popup(ad);
-		return false;
-	}
 
 	ret = connection_get_cellular_state(ad->conn_handle, &cellular_state);
 	if (ret != CONNECTION_ERROR_NONE) {
@@ -222,10 +204,6 @@ static void __disable_tethering_by_ind(mh_appdata_t *ad, tethering_disabled_caus
 
 	case TETHERING_DISABLED_BY_LOW_BATTERY:
 		DBG("TETHERING_DISABLED_IND by LOW_BATTERY\n");
-		break;
-
-	case TETHERING_DISABLED_BY_MDM_ON:
-		DBG("TETHERING_DISABLED_IND by MDM\n");
 		break;
 
 	default:
@@ -348,14 +326,6 @@ void _enabled_cb(tethering_error_e result, tethering_type_e type, bool is_reques
 	if (user_data == NULL) {
 		ERR("user_data is NULL\n");
 		return;
-	}
-
-	if (result == TETHERING_ERROR_NONE) {
-		int ret = vconf_set_int(
-				VCONFKEY_MOBILE_HOTSPOT_WIFI_STATE,
-				VCONFKEY_MOBILE_HOTSPOT_WIFI_ON);
-		if (ret < 0)
-			ERR("vconf_set_int() is failed : %d\n", ret);
 	}
 
 	mh_appdata_t *ad = (mh_appdata_t *)user_data;
@@ -491,12 +461,6 @@ int _handle_wifi_onoff_change(mh_appdata_t *ad)
 					_("IDS_MOBILEAP_POP_DISABLING_TETHERING_WILL_PREVENT_LINKED_DEVICES_FROM_ACCESSING_THE_INTERNET_CONTINUE_Q"));
 			_create_popup(ad);
 		} else {
-			ret = vconf_set_int(
-					VCONFKEY_MOBILE_HOTSPOT_WIFI_STATE,
-					VCONFKEY_MOBILE_HOTSPOT_WIFI_PENDING_OFF);
-			if (ret < 0)
-				ERR("vconf_set_int() is failed : %d\n", ret);
-
 			ret = tethering_disable(ad->handle, TETHERING_TYPE_WIFI);
 			if (ret != TETHERING_ERROR_NONE) {
 				ERR("wifi tethering off is failed : %d\n", ret);

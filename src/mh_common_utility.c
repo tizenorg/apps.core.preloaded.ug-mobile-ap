@@ -130,11 +130,6 @@ static void __popup_resp_yes(void *data, Evas_Object *obj, void *event_info)
 		break;
 
 	case MH_POP_WIFI_OFF_CONF:
-		ret = vconf_set_int(VCONFKEY_MOBILE_HOTSPOT_WIFI_STATE,
-				VCONFKEY_MOBILE_HOTSPOT_WIFI_PENDING_OFF);
-		if (ret < 0)
-			ERR("vconf_set_int() is failed : %d\n", ret);
-
 		ret = tethering_disable(ad->handle, TETHERING_TYPE_WIFI);
 		if (ret != TETHERING_ERROR_NONE) {
 			ERR("wifi tethering off is failed : %d\n", ret);
