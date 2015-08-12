@@ -47,7 +47,6 @@ extern "C" {
 #include <ui-gadget-module.h>
 #include <wifi.h>
 #include <net_connection.h>
-#include <sim.h>
 #include <tethering.h>
 #include <dlog.h>
 

@@ -4,7 +4,7 @@
 
 Name:       ug-setting-mobileap-efl
 Summary:    Tethering UI Gadget Library
-Version:    0.1.165
+Version:    0.1.166
 Release:    1
 Group:      TO_BE/FILLED_IN
 License:    Flora License Version 1.0
@@ -17,11 +17,10 @@ BuildRequires: libtzplatform-config-devel
 BuildRequires: pkgconfig(elementary)
 BuildRequires: pkgconfig(evas)
 BuildRequires: pkgconfig(ui-gadget-1)
-BuildRequires: pkgconfig(wifi-direct)
+BuildRequires: pkgconfig(capi-network-wifi-direct)
 BuildRequires: pkgconfig(capi-network-tethering)
 BuildRequires: pkgconfig(capi-network-connection)
 BuildRequires: pkgconfig(capi-network-wifi)
-BuildRequires: pkgconfig(capi-telephony-sim)
 BuildRequires: pkgconfig(capi-network-bluetooth)
 BuildRequires: pkgconfig(notification)
 %if %{with x}
