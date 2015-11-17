@@ -1,74 +1,65 @@
-msgid "IDS_MOBILEAP_BODY_THIS_PASSWORD_IS_ONLY_FOR_WI_FI_TETHERING"
-msgstr "Цей пароль може використовуватися лише для прив’язки Wi-Fi"
-
-msgid "IDS_MOBILEAP_BODY_WI_FI_TETHERING_HIDDEN"
-msgstr "Прив'язку Wi-Fi приховано"
-
-msgid "IDS_MOBILEAP_BODY_WI_FI_TETHERING_SETTINGS_ARE_ONLY_AVAILABLE_WHEN_WI_FI_TETHERING_IS_DISABLED"
-msgstr "Установки прив'язки Wi-Fi доступні, лише якщо її вимкнено"
-
-msgid "IDS_MOBILEAP_MBODY_WI_FI_TETHERING"
-msgstr "Прив’язка Wi-Fi"
-
-msgid "IDS_MOBILEAP_MBODY_WI_FI_TETHERING_SETTINGS"
-msgstr "Установки прив'язки Wi-Fi"
-
-msgid "IDS_MOBILEAP_BODY_RECEIVED_C"
-msgstr "Отримано:"
-
-msgid "IDS_MOBILEAP_BODY_SENT_C"
-msgstr "Надіслано:"
-
-msgid "IDS_MOBILEAP_BODY_DEVICE_NAME"
-msgstr "Ім'я пристрою"
-
-msgid "IDS_MOBILEAP_BODY_PASSWORD"
-msgstr "Пароль"
-
-msgid "IDS_MOBILEAP_BODY_DEVICE_NAME_CAN_BE_CHANGED_IN_PS"
-msgstr "Ім’я пристрою можна змінити у %s"
-
-msgid "IDS_MOBILEAP_BODY_HIDE_MY_DEVICE"
-msgstr "Приховати мій пристрій"
+msgid "IDS_COM_SK_OK"
+msgstr "ОК"
 
 msgid "IDS_MOBILEAP_MBODY_DATA_USAGE"
 msgstr "Використання даних"
 
-msgid "IDS_MOBILEAP_MBODY_USB_TETHERING"
-msgstr "Прив’язка USB"
+msgid "IDS_MOBILEAP_BODY_TETHERING"
+msgstr "Прив’язка"
 
-msgid "IDS_MOBILEAP_POP_DISABLING_TETHERING_WILL_PREVENT_LINKED_DEVICES_FROM_ACCESSING_THE_INTERNET_CONTINUE_Q"
-msgstr "У разі вимкнення прив'язки зв’язані пристрої не зможуть отримувати доступ до Інтернету. Продовжити?"
+msgid "IDS_WIFI_TPOP_MAXIMUM_NUMBER_OF_CHARACTERS_PD_REACHED"
+msgstr "Досягнуто максимальної кількості символів: %d"
 
-msgid "IDS_MOBILEAP_POP_INSERT_SIM_CARD_AND_RESTART_DEVICE_TO_USE_TETHERING"
-msgstr "Вставте SIM-картку та перезавантажте пристрій, щоб скористатися прив'язкою"
+msgid "IDS_BR_SK_YES"
+msgstr "Так"
 
-msgid "IDS_MOBILEAP_POP_UNABLE_TO_USE_TETHERING"
-msgstr "Неможливо використати прив’язку"
+msgid "IDS_BR_SK_NO"
+msgstr "Ні"
 
-msgid "IDS_MOBILEAP_POP_UNABLE_TO_USE_TETHERING_IN_FLIGHT_MODE_TO_USE_TETHERING_DISABLE_FLIGHT_MODE"
-msgstr "Неможливо використовувати прив’язку в режимі без зв’язку. Для використання прив'язки вимкніть режим без зв’язку"
+msgid "IDS_BR_SK_CANCEL"
+msgstr "Скасувати"
 
-msgid "IDS_ST_BODY_ABOUT_PHONE"
-msgstr "Відомості про телефон"
+msgid "IDS_COM_BODY_HELP"
+msgstr "Довідка"
 
-msgid "IDS_MOBILEAP_BODY_CONNECTED_DEVICE"
-msgstr "Підключений пристрій"
+msgid "IDS_ST_HEADER_RENAME_DEVICE"
+msgstr "Перейменувати пристрій"
+
+msgid "IDS_ST_HEADER_MY_DEVICE_NAME"
+msgstr "Ім’я мого пристрою"
+
+msgid "IDS_COM_BODY_ENTER_PASSWORD"
+msgstr "Введіть пароль."
+
+msgid "IDS_TPLATFORM_ACBUTTON_DONE_ABB"
+msgstr "ГОТОВО"
+
+msgid "IDS_TPLATFORM_ACBUTTON_CANCEL_ABB"
+msgstr "СКАСУВАТИ"
+
+msgid "IDS_COM_SK_SAVE"
+msgstr "Збер."
 
 msgid "IDS_MOBILEAP_BODY_BLUETOOTH_TETHERING"
 msgstr "Прив’язка Bluetooth"
 
-msgid "IDS_MOBILEAP_BODY_SECURITY"
-msgstr "Безпека"
+msgid "IDS_MOBILEAP_BODY_CONNECTED_DEVICE"
+msgstr "Підключений пристрій"
 
-msgid "IDS_MOBILEAP_BODY_TETHERING"
-msgstr "Прив’язка"
+msgid "IDS_MOBILEAP_BODY_DATA_USED_C_PS_ABB"
+msgstr "Використано даних: %s"
 
-msgid "IDS_ST_BODY_ENTER_PASSWORD_OF_AT_LEAST_8_CHARACTERS"
-msgstr "Введіть пароль принаймні 8 символів завдовжки"
+msgid "IDS_MOBILEAP_BODY_DEVICE_NAME"
+msgstr "Ім'я пристрою"
 
-msgid "IDS_MOBILEAP_POP_ENABLING_USB_TETHERING_WILL_DISCONNECT_PREVIOUS_USB_CONNECTION"
-msgstr "Увімкнення прив’язки USB призведе до відключення попереднього USB-з’єднання"
+msgid "IDS_MOBILEAP_BODY_DEVICE_NAME_CAN_BE_CHANGED_IN_PS"
+msgstr "Ім’я пристрою можна змінити у %s."
+
+msgid "IDS_MOBILEAP_BODY_HIDE_MY_DEVICE"
+msgstr "Приховати мій пристрій"
+
+msgid "IDS_MOBILEAP_BODY_PASSWORD"
+msgstr "Пароль"
 
 msgid "IDS_MOBILEAP_BODY_PD_BYTES"
 msgstr "%d байт"
@@ -79,14 +70,116 @@ msgstr "%d Kb"
 msgid "IDS_MOBILEAP_BODY_PD_MB"
 msgstr "%d Мб"
 
-msgid "IDS_MOBILEAP_POP_UNABLE_TO_USE_PACKET_DATA_SERVICE_OUT_OF_COVERAGE"
-msgstr "Неможливо скористатися пакетною послугою. Поза зоною покриття"
+msgid "IDS_MOBILEAP_BODY_SECURITY"
+msgstr "Безпека"
 
-msgid "IDS_MOBILEAP_POP_CONNECT_USB_CABLE"
+msgid "IDS_MOBILEAP_BODY_TAP_TO_CONFIGURE_TETHERING"
+msgstr "Натисніть, щоб настроїти прив'язку."
+
+msgid "IDS_MOBILEAP_BODY_TETHERING_ACTIVE_ABB"
+msgstr "Прив’язка актив."
+
+msgid "IDS_MOBILEAP_BODY_TETHERING_IS_CURRENTLY_BEING_CONTROLLED_BY_ANOTHER_APPLICATION_TO_CONFIGURE_TETHERING_THAT_APPLICATION_WILL_BE_DISABLED"
+msgstr "Прив’язка наразі керується іншою програмою. Щоб настроїти прив'язку, потрібно вимкнути цю програму"
+
+msgid "IDS_MOBILEAP_BODY_THIS_PASSWORD_IS_ONLY_FOR_WI_FI_TETHERING"
+msgstr "Цей пароль може використовуватися лише для прив’язки Wi-Fi."
+
+msgid "IDS_MOBILEAP_BODY_WI_FI_TETHERING_HIDDEN"
+msgstr "Прив'язку Wi-Fi приховано."
+
+msgid "IDS_MOBILEAP_HEADER_CONNECT_TO_MOBILE_NETWORK_ABB"
+msgstr "Підключ. до мобільної мережі"
+
+msgid "IDS_MOBILEAP_HEADER_CONNECT_USB_CABLE_ABB"
 msgstr "Підключити кабель USB"
 
+msgid "IDS_MOBILEAP_HEADER_DISABLE_FLIGHT_MODE_ABB"
+msgstr "Вимкнути режим без зв’язку"
+
+msgid "IDS_MOBILEAP_HEADER_INSERT_SIM_CARD_ABB"
+msgstr "Вставте SIM-карту"
+
+msgid "IDS_MOBILEAP_HEADER_TETHERING_FAILED_ABB"
+msgstr "Збій прив’язки"
+
+msgid "IDS_MOBILEAP_HEADER_UNABLE_TO_USE_TETHERING_ABB"
+msgstr "Неможл. використати прив’язку"
+
+msgid "IDS_MOBILEAP_MBODY_USB_TETHERING"
+msgstr "Прив’язка USB"
+
+msgid "IDS_MOBILEAP_MBODY_WI_FI_TETHERING"
+msgstr "Прив’язка Wi-Fi"
+
+msgid "IDS_MOBILEAP_MBODY_WI_FI_TETHERING_SETTINGS"
+msgstr "Установки прив'язки Wi-Fi"
+
+msgid "IDS_MOBILEAP_POP_CONNECTED_DEVICES_C_PD"
+msgstr "Підключені пристрої: %d"
+
+msgid "IDS_MOBILEAP_POP_CONNECT_USB_CABLE"
+msgstr "Підключити кабель USB."
+
+msgid "IDS_MOBILEAP_POP_DISABLING_TETHERING_WILL_PREVENT_LINKED_DEVICES_FROM_ACCESSING_THE_INTERNET_CONTINUE_Q"
+msgstr "У разі вимкнення прив'язки зв’язані пристрої не зможуть отримувати доступ до Інтернету. Продовжити?"
+
+msgid "IDS_MOBILEAP_POP_ENABLING_USB_TETHERING_WILL_DISCONNECT_PREVIOUS_USB_CONNECTION"
+msgstr "Увімкнення прив’язки USB призведе до відключення попереднього USB-з’єднання."
+
+msgid "IDS_MOBILEAP_POP_INSERT_SIM_CARD_AND_RESTART_DEVICE_TO_USE_TETHERING"
+msgstr "Вставте SIM-карту та перезавантажте пристрій, щоб скористатися прив'язкою."
+
 msgid "IDS_MOBILEAP_POP_PASSWORD_MUST_CONTAIN_AT_LEAST_PD_CHARACTERS_AND_NOT_EXCEED_PD_CHARACTERS"
-msgstr "Пароль має містити щонайменше %d символів і не перевищувати %d символів"
+msgstr "Пароль має містити щонайменше %d символів і не перевищувати %d символів."
+
+msgid "IDS_MOBILEAP_POP_TETHERING_CONSUMES_MORE_BATTERY_POWER_AND_INCREASES_YOUR_DATA_USAGE"
+msgstr "Прив'язка використовує більше заряду акумулятора та збільшує використання даних."
+
+msgid "IDS_MOBILEAP_POP_TO_ENABLE_THIS_TETHERING_FUNCTION_CONNECT_TO_A_MOBILE_OR_WI_FI_NETWORK"
+msgstr "Щоб увімкнути цю функцію прив’язки, підключіться до мобільної мережі або мережі Wi-Fi"
+
+msgid "IDS_MOBILEAP_POP_UNABLE_TO_USE_TETHERING"
+msgstr "Неможливо використати прив’язку."
+
+msgid "IDS_MOBILEAP_POP_UNABLE_TO_USE_TETHERING_IN_FLIGHT_MODE_TO_USE_TETHERING_DISABLE_FLIGHT_MODE"
+msgstr "Неможливо використовувати прив’язку в режимі без зв’язку. Для використання прив'язки вимкніть режим без зв’язку."
+
+msgid "IDS_MSGC_POP_MOBILE_DATA_IS_DISABLED_ENABLE_MOBILE_DATA_AND_TRY_AGAIN"
+msgstr "Використання мобільних даних вимкнено. Увімкніть використання мобільних даних і спробуйте ще раз."
+
+msgid "IDS_BR_MBODY_CONNECT_TO_MOBILE_NETWORK"
+msgstr "Підключ. до мобіл. мережі"
+
+msgid "IDS_BR_OPT_DO_NOT_SHOW_AGAIN"
+msgstr "Більше не показувати"
+
+msgid "IDS_CHATON_BODY_AT_LEAST_PD_CHARACTERS_ABB"
+msgstr "Принаймні %d символів"
+
+msgid "IDS_COM_BODY_NO_NAME"
+msgstr "Немає імені"
+
+msgid "IDS_COM_BODY_TURN_OFF"
+msgstr "Вимкнути"
+
+msgid "IDS_MSG_HEADER_NO_NETWORK_CONNECTION"
+msgstr "Немає підключення до мережі"
+
+msgid "IDS_ST_BODY_BLUETOOTH_VISIBILITY_HAS_TIMED_OUT_YOUR_DEVICE_MIGHT_NOT_BE_FOUND"
+msgstr "Час видимості Bluetooth вичерпано. Пристрій не буде знайдено."
+
+msgid "IDS_ST_BODY_CONNECTION_TIMEOUT"
+msgstr "Час очікування підключення."
+
+msgid "IDS_ST_BODY_ENTER_PASSWORD_OF_AT_LEAST_8_CHARACTERS"
+msgstr "Введіть пароль принаймні 8 символів завдовжки."
+
+msgid "IDS_ST_BODY_SECURITY_TYPE_C_PS"
+msgstr "Тип захисту: %s"
+
+msgid "IDS_ST_BODY_SETTINGS"
+msgstr "Налаштування"
 
 msgid "IDS_ST_BODY_TETHERING_CONSUMES_MORE_BATTERY_POWER_AND_INCREASES_YOUR_DATA_USAGE_THE_MAXIMUM_NUMBER_OF_TETHERED_DEVICES_ALLOWED_IS_PD"
 msgstr "Прив'язка використовує більше заряду акумулятора та збільшує використання даних. Максимальна кількість дозволених пристроїв, які можна прив'язати: %d"
@@ -94,12 +187,36 @@ msgstr "Прив'язка використовує більше заряду а�
 msgid "IDS_ST_BODY_WI_FI_NETWORK_WILL_BE_DISCONNECTED_TETHERING_CONSUMES_MORE_BATTERY_POWER_AND_INCREASES_YOUR_DATA_USAGE_THE_MAXIMUM_NUMBER_OF_TETHERED_DEVICES_ALLOWED_IS_PD"
 msgstr "Мережу Wi-Fi буде відключено. Прив'язка використовує більше заряду акумулятора та збільшує використання даних. Максимальна кількість дозволених пристроїв, які можна прив'язати: %d"
 
-msgid "IDS_MOBILEAP_POP_TETHERING_CONSUMES_MORE_BATTERY_POWER_AND_INCREASES_YOUR_DATA_USAGE"
-msgstr "Прив'язка використовує більше заряду акумулятора та збільшує використання даних"
+msgid "IDS_ST_BUTTON_ENABLE_M_USE"
+msgstr "Увімкнути"
 
-msgid "IDS_MOBILEAP_POP_CONNECTED_DEVICE_WILL_BE_DISCONNECTED"
-msgstr "Підключений пристрій буде відключено"
+msgid "IDS_ST_HEADER_DATA_USAGE_LIMIT_REACHED_ABB2"
+msgstr "Досягн.обмеж.на вик.даних"
 
-msgid "IDS_MOBILEAP_POP_CONNECTED_DEVICES_C_PD"
-msgstr "Підключені пристрої: %d"
+msgid "IDS_ST_MBODY_FLIGHT_MODE_ABB"
+msgstr "Без зв’яз."
+
+msgid "IDS_ST_POP_DEVICE_NAMES_ARE_DISPLAYED_TO_DISTINGUISH_EACH_OF_THE_DEVICES_AVAILABLE_MSG"
+msgstr "Імена дають змогу відрізняти один від одного різні пристрої, які відображаються в списку наявних поблизу пристроїв, а також знайдені через Bluetooth, Wi-Fi Direct тощо."
+
+msgid "IDS_ST_POP_TO_USE_TETHERING_CONNECT_TO_A_MOBILE_NETWORKS"
+msgstr "Щоб скористатися прив'язкою, встановіть підключення до мобільних мереж."
+
+msgid "IDS_ST_SK_RENAME"
+msgstr "Перейменувати"
+
+msgid "IDS_WIFI_HEADER_CONNECTED_DEVICES"
+msgstr "Підключені пристрої"
+
+msgid "MIDS_SWALL_HEADER_SIM_CARD_ERROR_OCCURRED_ABB"
+msgstr "Сталася помилка SIM-картки"
+
+msgid "IDS_MOBILEAP_POP_UNABLE_TO_USE_PACKET_DATA_SERVICE_OUT_OF_COVERAGE"
+msgstr "Неможливо скористатися пакетною послугою. Поза зоною покриття."
+
+msgid "IDS_ST_BODY_ABOUT_PHONE"
+msgstr "Відомості про телефон"
+
+msgid "IDS_POPSYNC_BODY_CONNECT_YOUR_MOBILE_DEVICE_TO_THE_PC_VIA_USB_CABLE_T_HELP"
+msgstr "Підключіть мобільний пристрій до ПК через кабель USB."
 
