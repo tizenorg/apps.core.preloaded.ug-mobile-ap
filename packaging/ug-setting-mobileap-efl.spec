@@ -3,13 +3,13 @@
 
 Name:		ug-setting-mobileap-efl
 Summary:	Tethering UI Gadget Library
-Version:	1.0.123
+Version:	1.0.124
 Release:	1
 Group:		App/Network
 License:	Flora-1.1
 Source0:	%{name}-%{version}.tar.gz
 
-%if "%{?tizen_profile_name}" == "wearable"
+%if "%{?profile}" == "wearable"
 ExcludeArch: %{arm} %ix86 x86_64
 %endif
 
