@@ -2,7 +2,7 @@
 <manifest xmlns="http://tizen.org/ns/packages" package="ug-setting-mobileap-efl" api-version="2.4" version="2.0.25" install-location="internal-only">
 	<label>Tethering</label>
 	<description>Tethering UG</description>
-	<ui-application appid="setting-mobileap-efl" exec="/usr/apps/ug-setting-mobileap-efl/bin/ug-setting-mobileap-efl" ui-gadget="true" nodisplay="true" multiple="false" type="capp" taskmanage="false" process-pool="true" hw-acceleration="use-GL">
+	<ui-application appid="ug-setting-mobileap-efl" exec="/usr/apps/ug-setting-mobileap-efl/bin/ug-setting-mobileap-efl" ui-gadget="true" nodisplay="true" multiple="false" type="capp" taskmanage="false" process-pool="true" hw-acceleration="use-GL">
 		<label>Tethering</label>
 		<label xml:lang="ar-ae">ﺖﻘﻴﻳﺩ</label>
 		<label xml:lang="az-az">Bağlanma</label>
