@@ -82,7 +82,7 @@ static void __launch_network_app(void)
 		return;
 	}
 	app_control_set_operation(app_control, APP_CONTROL_OPERATION_DEFAULT);
-	app_control_set_window(app_control, elm_win_xwindow_get(ug_get_window()));
+	app_control_set_launch_mode(app_control, APP_CONTROL_LAUNCH_MODE_GROUP);
 	app_control_set_app_id(app_control, "setting-network-efl");
 
 	ret = app_control_send_launch_request(app_control, NULL, NULL);
