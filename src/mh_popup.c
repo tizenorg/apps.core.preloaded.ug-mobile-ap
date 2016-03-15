@@ -29,48 +29,6 @@ static mh_popup_type_e popup_type = MH_POPUP_NONE;
 static Evas_Object *popup_content = NULL;
 static char *popup_string = NULL;
 
-static void __handle_one_btn(void *data)
-{
-	__MOBILE_AP_FUNC_ENTER__;
-
-	if (data == NULL) {
-		ERR("The param is NULL\n");
-		return;
-	}
-
-	mh_appdata_t *ad = (mh_appdata_t *)data;
-
-	if (ad->popup) {
-		evas_object_del(ad->popup);
-		ad->popup = NULL;
-	}
-	__MOBILE_AP_FUNC_EXIT__;
-}
-
-static void __popup_one_btn_clicked_cb(void *data, Evas_Object *obj, void *event_info)
-{
-	if (data == NULL || obj == NULL) {
-		ERR("The param is NULL\n");
-		return;
-	}
-
-	__handle_one_btn(data);
-}
-
-static void __popup_one_btn_mouse_event_cb(void *data, Evas *evas, Evas_Object *obj, void *event_info)
-{
-	if (data == NULL || obj == NULL) {
-		ERR("The param is NULL\n");
-		return;
-	}
-
-	Evas_Event_Mouse_Up *ev = event_info;
-
-	if (ev->button == 3) {
-		__handle_one_btn(data);
-	}
-}
-
 static void __launch_network_app(void)
 {
 	int ret = APP_CONTROL_ERROR_NONE;
@@ -485,7 +443,6 @@ Eina_Bool _create_popup(mh_appdata_t *ad)
 	Evas_Object *popup = NULL;
 	Evas_Object *cancel_button = NULL;
 	Evas_Object *yes_button = NULL;
-	Evas_Object *label = NULL;
 
 	if (ad == NULL) {
 		ERR("The param is NULL\n");
