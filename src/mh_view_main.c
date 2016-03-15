@@ -724,13 +724,13 @@ static void __select_usb_item(void *data, Evas_Object *obj, void *event_info)
 	return;
 }
 
-static Eina_Bool __back_btn_cb(void *data, Elm_Object_Item *navi_item)
+static void  __back_btn_cb(void *data, Elm_Object_Item *navi_item)
 {
 	INFO("+\n");
 
 	if (data == NULL) {
 		ERR("The param is NULL\n");
-		return EINA_FALSE;
+		return;
 	}
 
 	mh_appdata_t *ad = (mh_appdata_t*)data;
@@ -741,7 +741,7 @@ static Eina_Bool __back_btn_cb(void *data, Elm_Object_Item *navi_item)
 	ug_destroy_me(((mh_ugdata_t *)ad->gadget)->ug);
 
 	INFO("-\n");
-	return EINA_FALSE;
+	return;
 }
 
 static char *__get_wifi_label(void *data, Evas_Object *obj, const char *part)
@@ -1579,14 +1579,14 @@ void _main_draw_contents(mh_appdata_t *ad)
 			__create_ctxpopup_more_button, ad);
 #endif
 
-	evas_object_smart_callback_add(ad->main.back_btn, "clicked", __back_btn_cb, (void *)ad);
+	evas_object_smart_callback_add(ad->main.back_btn, "clicked", (Evas_Smart_Cb)__back_btn_cb, (void *)ad);
 	elm_object_focus_allow_set(ad->main.back_btn, EINA_FALSE);
 
 	navi_item = elm_naviframe_item_push(ad->naviframe, IDS_TETH,
 				ad->main.back_btn, NULL, ad->main.genlist, NULL);
 	elm_object_item_domain_text_translatable_set(navi_item, PKGNAME, EINA_TRUE);
 
-	elm_naviframe_item_pop_cb_set(navi_item, __back_btn_cb, (void *)ad);
+	elm_naviframe_item_pop_cb_set(navi_item, (Elm_Naviframe_Item_Pop_Cb)__back_btn_cb, (void *)ad);
 	ad->navi_item = navi_item;
 	g_ad = ad;
 	INFO("-\n");

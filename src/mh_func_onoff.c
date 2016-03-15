@@ -521,7 +521,7 @@ void _wifi_state_changed_cb(wifi_device_state_e state, void *user_data)
 		if (ad->main.wifi_item && elm_object_item_disabled_get(ad->main.wifi_item))
 			elm_object_item_disabled_set(ad->main.wifi_item, EINA_FALSE);
 		_set_vconf_prev_wifi_state(false);
-	} else if (state == WIFI_CONNECTION_STATE_DISCONNECTED){
+	} else if (state == WIFI_DEVICE_STATE_DEACTIVATED){
 		_set_vconf_prev_wifi_state(true);
 	}
 

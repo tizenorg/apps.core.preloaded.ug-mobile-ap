@@ -545,9 +545,7 @@ static Evas_Object *__gl_pw_content_get(void *data, Evas_Object *obj, const char
 {
 	__MOBILE_AP_FUNC_ENTER__;
 
-	mh_appdata_t *ad = (mh_appdata_t *)data;
 	Evas_Object * layout = NULL;
-	Evas_Object * entry = NULL;
 
 	if (data == NULL) {
 		ERR("data is null \n");
@@ -559,8 +557,6 @@ static Evas_Object *__gl_pw_content_get(void *data, Evas_Object *obj, const char
 		elm_layout_theme_set(layout, "layout", "editfield", "singleline");
 		evas_object_size_hint_align_set(layout, EVAS_HINT_FILL, 0.0);
 		evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, 0.0);
-
-		entry = __get_pw_entry(ad, layout);
 	}
 
 	__MOBILE_AP_FUNC_EXIT__;
@@ -951,7 +947,7 @@ Evas_Object *__create_genlist(mh_appdata_t *ad)
 	elm_object_style_set(genlist, "dialogue");
 	elm_genlist_mode_set(genlist, ELM_LIST_COMPRESS);
 	evas_object_smart_callback_add(genlist, "realized", __gl_realized, ad);
-	elm_genlist_realization_mode_set(genlist, EINA_TRUE);
+	//elm_genlist_realization_mode_set(genlist, EINA_TRUE);
 
 	__set_genlist_itc(ad);
 
