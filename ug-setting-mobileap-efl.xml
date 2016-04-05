@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns="http://tizen.org/ns/packages" package="ug-setting-mobileap-efl" api-version="2.4" version="2.0.25" install-location="internal-only">
+<manifest xmlns="http://tizen.org/ns/packages" package="ug-setting-mobileap-efl" api-version="2.4" version="2.0.25" install-location="internal-only" preload="true">
 	<label>Tethering</label>
 	<description>Tethering UG</description>
 	<ui-application appid="ug-setting-mobileap-efl" exec="/usr/apps/ug-setting-mobileap-efl/bin/ug-setting-mobileap-efl" ui-gadget="true" nodisplay="true" multiple="false" type="capp" taskmanage="false" process-pool="true" hw-acceleration="use-GL">
@@ -62,5 +62,8 @@
 	</ui-application>
 	<privileges>
 		<privilege>http://tizen.org/privilege/tethering.admin</privilege>
+		<privilege>http://tizen.org/privilege/network.get</privilege>
+		<privilege>http://tizen.org/privilege/network.set</privilege>
+		<privilege>http://tizen.org/privilege/network.profile</privilege>
 	</privileges>
 </manifest>

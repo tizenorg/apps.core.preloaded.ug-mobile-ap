@@ -201,7 +201,6 @@ static Evas_Object *__gl_hide_icon_get(void *data, Evas_Object *obj,
 
 	mh_appdata_t *ad = (mh_appdata_t *)data;
 	Evas_Object *btn = NULL;
-	Evas_Object *icon_layout = NULL;
 
 	if (data == NULL || obj == NULL || part == NULL) {
 		ERR("Invalid param\n");
@@ -209,8 +208,6 @@ static Evas_Object *__gl_hide_icon_get(void *data, Evas_Object *obj,
 	}
 
 	if (!strcmp("elm.swallow.end", part)) {
-		icon_layout = elm_layout_add(obj);
-		elm_layout_theme_set(icon_layout, "layout", "list/C/type.3", "default");
 		btn = elm_check_add(obj);
 		if (btn == NULL) {
 			ERR("btn is NULL\n");
@@ -226,12 +223,10 @@ static Evas_Object *__gl_hide_icon_get(void *data, Evas_Object *obj,
 		evas_object_smart_callback_add(btn, "changed",
 				__hide_btn_changed_cb, (void *)ad);
 		ad->setup.hide_btn = btn;
-
-		elm_layout_content_set(icon_layout, "elm.swallow.content", btn);
 	}
 
 	__MOBILE_AP_FUNC_EXIT__;
-	return icon_layout;
+	return btn;
 }
 
 static Evas_Object *__gl_security_icon_get(void *data, Evas_Object *obj,
@@ -241,7 +236,6 @@ static Evas_Object *__gl_security_icon_get(void *data, Evas_Object *obj,
 
 	mh_appdata_t *ad = (mh_appdata_t *)data;
 	Evas_Object *btn = NULL;
-	Evas_Object *icon_layout = NULL;
 
 	if (data == NULL || obj == NULL || part == NULL) {
 		ERR("Invalid param\n");
@@ -249,9 +243,6 @@ static Evas_Object *__gl_security_icon_get(void *data, Evas_Object *obj,
 	}
 
 	if (!strcmp("elm.swallow.end", part)) {
-		icon_layout = elm_layout_add(obj);
-		elm_layout_theme_set(icon_layout, "layout", "list/C/type.3", "default");
-
 		btn = elm_check_add(obj);
 		elm_object_style_set(btn, "on&off");
 		evas_object_show(btn);
@@ -263,12 +254,10 @@ static Evas_Object *__gl_security_icon_get(void *data, Evas_Object *obj,
 		evas_object_smart_callback_add(btn, "changed",
 				__security_btn_changed_cb, (void *)ad);
 		ad->setup.security_btn = btn;
-
-		elm_layout_content_set(icon_layout, "elm.swallow.content", btn);
 	}
 
 	__MOBILE_AP_FUNC_EXIT__;
-	return icon_layout;
+	return btn;
 }
 
 static bool __save_wifi_passphrase(mh_appdata_t *ad)

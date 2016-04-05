@@ -758,7 +758,6 @@ static Evas_Object *__get_wifi_icon(void *data, Evas_Object *obj,
 {
 	mh_appdata_t *ad = (mh_appdata_t*)data;
 	Evas_Object *btn = NULL;
-	Evas_Object *progressbar = NULL;
 	Evas_Object *icon_layout = NULL;
 
 	if (data == NULL) {
@@ -767,28 +766,24 @@ static Evas_Object *__get_wifi_icon(void *data, Evas_Object *obj,
 	}
 
 	if (!strcmp("elm.swallow.end", part)) {
-		icon_layout = elm_layout_add(obj);
-		elm_layout_theme_set(icon_layout, "layout", "list/C/type.3", "default");
-
 		if (ad->main.wifi_state == MH_STATE_PROCESS) {
-			progressbar = _create_progressbar(obj, "process_medium");
-			elm_layout_content_set(icon_layout, "elm.swallow.content", progressbar);
+			btn = _create_progressbar(obj, "process_medium");
 		} else {
 			btn = elm_check_add(obj);
 			elm_object_style_set(btn, "on&off");
-			evas_object_show(btn);
 
-			evas_object_pass_events_set(btn, EINA_TRUE);
 			evas_object_propagate_events_set(btn, EINA_FALSE);
+			evas_object_size_hint_align_set(btn, EVAS_HINT_FILL, EVAS_HINT_FILL);
+			evas_object_size_hint_weight_set(btn, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
 			elm_check_state_set(btn, ad->main.hotspot_mode &
 				VCONFKEY_MOBILE_HOTSPOT_MODE_WIFI ? EINA_TRUE : EINA_FALSE);
 
 			evas_object_smart_callback_add(btn, "changed", __wifi_onoff_changed_cb, ad);
-			elm_layout_content_set(icon_layout, "elm.swallow.content", btn);
+			evas_object_show(btn);
 		}
 	}
 
-	return icon_layout;
+	return btn;
 }
 
 static char *__get_bt_label(void *data, Evas_Object *obj, const char *part)
@@ -804,8 +799,6 @@ static Evas_Object *__get_bt_icon(void *data, Evas_Object *obj, const char *part
 {
 	mh_appdata_t *ad = (mh_appdata_t *)data;
 	Evas_Object *btn = NULL;
-	Evas_Object *progressbar = NULL;
-	Evas_Object *icon_layout = NULL;
 
 	if (data == NULL) {
 		ERR("The param is NULL\n");
@@ -813,12 +806,8 @@ static Evas_Object *__get_bt_icon(void *data, Evas_Object *obj, const char *part
 	}
 
 	if (!strcmp("elm.swallow.end", part)) {
-		icon_layout = elm_layout_add(obj);
-		elm_layout_theme_set(icon_layout, "layout", "list/C/type.3", "default");
-
 		if (ad->main.bt_state == MH_STATE_PROCESS) {
-			progressbar = _create_progressbar(obj, "process_medium");
-			elm_layout_content_set(icon_layout, "elm.swallow.content", progressbar);
+			btn = _create_progressbar(obj, "process_medium");
 		} else {
 			btn = elm_check_add(obj);
 			if (btn == NULL) {
@@ -832,11 +821,10 @@ static Evas_Object *__get_bt_icon(void *data, Evas_Object *obj, const char *part
 				VCONFKEY_MOBILE_HOTSPOT_MODE_BT ? EINA_TRUE : EINA_FALSE);
 			evas_object_show(btn);
 			evas_object_smart_callback_add(btn, "changed", __bt_onoff_changed_cb, ad);
-			elm_layout_content_set(icon_layout, "elm.swallow.content", btn);
 		}
 	}
 
-	return icon_layout;
+	return btn;
 }
 
 static char *__get_usb_label(void *data, Evas_Object *obj, const char *part)
@@ -853,8 +841,6 @@ static Evas_Object *__get_usb_icon(void *data, Evas_Object *obj,
 {
 	mh_appdata_t *ad = (mh_appdata_t *)data;
 	Evas_Object *btn = NULL;
-	Evas_Object *progressbar = NULL;
-	Evas_Object *icon_layout = NULL;
 
 	if (data == NULL) {
 		ERR("The param is NULL\n");
@@ -862,12 +848,8 @@ static Evas_Object *__get_usb_icon(void *data, Evas_Object *obj,
 	}
 
 	if (!strcmp("elm.swallow.end", part)) {
-		icon_layout = elm_layout_add(obj);
-		elm_layout_theme_set(icon_layout, "layout", "list/C/type.3", "default");
-
 		if (ad->main.usb_state == MH_STATE_PROCESS) {
-			progressbar = _create_progressbar(obj, "process_medium");
-			elm_layout_content_set(icon_layout, "elm.swallow.content", progressbar);
+			btn = _create_progressbar(obj, "process_medium");
 		} else {
 			btn = elm_check_add(obj);
 			if (btn == NULL) {
@@ -881,11 +863,10 @@ static Evas_Object *__get_usb_icon(void *data, Evas_Object *obj,
 				VCONFKEY_MOBILE_HOTSPOT_MODE_USB ? EINA_TRUE : EINA_FALSE);
 			evas_object_show(btn);
 			evas_object_smart_callback_add(btn, "changed", __usb_onoff_changed_cb, ad);
-			elm_layout_content_set(icon_layout, "elm.swallow.content", btn);
 		}
 	}
 
-	return icon_layout;
+	return btn;
 }
 
 static char *__get_help_label(void *data, Evas_Object *obj, const char *part)
