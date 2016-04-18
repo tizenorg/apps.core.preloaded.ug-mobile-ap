@@ -322,7 +322,8 @@ static void __language_changed_cb(void *data, Evas_Object *obj, void *event_info
 		break;
 
 	case TETHERING_TYPE_BT:
-		snprintf(str, MH_LABEL_LENGTH_MAX, STR_TETH_ON_DESC_2, TETHERING_BT_MAX_CONNECTED_STA);
+		fmt = STR_TETH_ON_DESC_2;
+		snprintf(str, MH_LABEL_LENGTH_MAX, fmt, TETHERING_BT_MAX_CONNECTED_STA);
 		break;
 
 	case TETHERING_TYPE_USB:

@@ -342,9 +342,10 @@ static void __pw_entry_maxlength_reached_cb(void *data, Evas_Object *obj,
 		return;
 	}
 	char buf[MH_LABEL_LENGTH_MAX] = { 0, };
+	char *fmt = STR_PASSWORD_MIN_MAX;
 	notification_error_e ret;
 
-	snprintf(buf, sizeof(buf), STR_PASSWORD_MIN_MAX,
+	snprintf(buf, sizeof(buf), fmt,
 			WIFI_PASSPHRASE_LENGTH_MIN, WIFI_PASSPHRASE_LENGTH_MAX);
 
 	ret = notification_status_message_post(buf);
@@ -408,8 +409,9 @@ static void __pw_entry_language_changed_cb(void *data, Evas_Object *obj, void *e
 	mh_appdata_t *ad = (mh_appdata_t *)data;
 	mh_wifi_setting_view_t *st = &ad->setup;
 	char buf[MH_LABEL_LENGTH_MAX];
+	char *fmt = STR_PW_GUIDE_TEXT;
 
-	snprintf(buf, sizeof(buf), STR_PW_GUIDE_TEXT, WIFI_PASSPHRASE_LENGTH_MIN);
+	snprintf(buf, sizeof(buf), fmt, WIFI_PASSPHRASE_LENGTH_MIN);
 
 	if (st->security_type_new == TETHERING_WIFI_SECURITY_TYPE_NONE) {
 		if (st->pw_item)
@@ -426,6 +428,7 @@ static Evas_Object *__get_pw_entry(void *data, Evas_Object *parent)
 
 	static Elm_Entry_Filter_Limit_Size limit_filter_data;
 	Evas_Object *entry = NULL;
+	char *fmt = STR_PW_GUIDE_TEXT;
 	char *ptr = NULL;
 	Evas_Object * clr_btn = NULL;
 	char buf[MH_LABEL_LENGTH_MAX];
@@ -459,7 +462,7 @@ static Evas_Object *__get_pw_entry(void *data, Evas_Object *parent)
 	elm_object_signal_emit(entry, "elm,action,hide,search_icon", "");
 	elm_entry_input_panel_layout_set(entry, ELM_INPUT_PANEL_LAYOUT_PASSWORD);
 	elm_entry_cursor_end_set(entry);
-	snprintf(buf, sizeof(buf), STR_PW_GUIDE_TEXT, WIFI_PASSPHRASE_LENGTH_MIN);
+	snprintf(buf, sizeof(buf), fmt, WIFI_PASSPHRASE_LENGTH_MIN);
 	elm_object_part_text_set(entry, "elm.guide", buf);
 	elm_entry_cnp_mode_set(entry, ELM_CNP_MODE_PLAINTEXT);
 

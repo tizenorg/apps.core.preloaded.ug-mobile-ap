@@ -758,7 +758,6 @@ static Evas_Object *__get_wifi_icon(void *data, Evas_Object *obj,
 {
 	mh_appdata_t *ad = (mh_appdata_t*)data;
 	Evas_Object *btn = NULL;
-	Evas_Object *icon_layout = NULL;
 
 	if (data == NULL) {
 		ERR("The param is NULL\n");
@@ -876,6 +875,7 @@ static char *__get_help_label(void *data, Evas_Object *obj, const char *part)
 	char device_name[MH_LABEL_LENGTH_MAX] = {0, };
 	char passphrase[MH_LABEL_LENGTH_MAX] = {0, };
 	char security_type[MH_LABEL_LENGTH_MAX] = {0, };
+	char *fmt = STR_SECURITY_TYPE_PS;
 	char *hidden = "";
 	char *ptr = NULL;
 	char *device_name_utf = NULL;
@@ -917,7 +917,7 @@ static char *__get_help_label(void *data, Evas_Object *obj, const char *part)
 			g_free(ptr);
 
 			snprintf(security_type, sizeof(security_type),
-					STR_SECURITY_TYPE_PS, "WPA2 PSK");
+					fmt, "WPA2 PSK");
 		}
 
 		wifi_state = ad->main.hotspot_mode & VCONFKEY_MOBILE_HOTSPOT_MODE_WIFI;

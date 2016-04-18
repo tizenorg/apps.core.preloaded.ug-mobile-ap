@@ -293,7 +293,8 @@ int _create_wifi_hotspot_on_popup(mh_appdata_t *ad)
 
 int _create_bt_tethering_on_popup(mh_appdata_t *ad)
 {
-	char *str;
+	char *fmt = STR_TETH_ON_DESC_2;
+	char *str = NULL;
 	int value = 0;
 	value = _get_checkbox_status(TETHERING_TYPE_BT);
 	if (0 == value) {
@@ -302,7 +303,7 @@ int _create_bt_tethering_on_popup(mh_appdata_t *ad)
 			ERR("memory allocation is failed\n");
 			return -1;
 		}
-		snprintf(str, MH_LABEL_LENGTH_MAX, STR_TETH_ON_DESC_2,
+		snprintf(str, MH_LABEL_LENGTH_MAX, fmt,
 				TETHERING_BT_MAX_CONNECTED_STA);
 		_prepare_popup(MH_POPUP_BT_ON_CHECKBOX, str);
 		g_free(str);
