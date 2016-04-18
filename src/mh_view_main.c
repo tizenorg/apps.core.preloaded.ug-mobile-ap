@@ -758,7 +758,6 @@ static Evas_Object *__get_wifi_icon(void *data, Evas_Object *obj,
 {
 	mh_appdata_t *ad = (mh_appdata_t*)data;
 	Evas_Object *btn = NULL;
-	Evas_Object *icon_layout = NULL;
 
 	if (data == NULL) {
 		ERR("The param is NULL\n");
