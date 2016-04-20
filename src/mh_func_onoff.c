@@ -415,11 +415,6 @@ void _enabled_cb(tethering_error_e result, tethering_type_e type, bool is_reques
 			ad->popup = NULL;
 		}
 		_update_main_view(ad, type);
-		if (type == TETHERING_TYPE_RESERVED) {
-			DBG("MobileAP is turned on\n");
-			_prepare_popup(MH_POPUP_WIFI_AP_OFF, STR_WIFI_AP_CONTROLLED_ANOTHER_APP);
-			_create_popup(ad);
-		}
 		return;
 	}
 

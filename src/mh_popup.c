@@ -121,13 +121,6 @@ static void __handle_popup_resp(void *data, bool response)
 			}
 			break;
 
-		case MH_POPUP_WIFI_AP_OFF:
-			ret = tethering_disable(ad->handle, TETHERING_TYPE_RESERVED);
-			if (ret != TETHERING_ERROR_NONE) {
-				ERR("MobileAP off is failed : %d\n", ret);
-			}
-			break;
-
 		case MH_POPUP_WIFI_OFF:
 			ret = tethering_disable(ad->handle, TETHERING_TYPE_WIFI);
 			if (ret != TETHERING_ERROR_NONE) {

@@ -56,11 +56,6 @@ static void __set_callbacks(tethering_h handle, void *user_data)
 	if (ret != TETHERING_ERROR_NONE)
 		ERR("tethering_set_enabled_cb [0x%X]\n", ret);
 
-	ret = tethering_set_enabled_cb(handle, TETHERING_TYPE_RESERVED,
-			_enabled_cb, user_data);
-	if (ret != TETHERING_ERROR_NONE)
-		ERR("tethering_set_enabled_cb [0x%X]\n", ret);
-
 	ret = tethering_wifi_set_passphrase_changed_cb(handle,
 			_passphrase_changed_cb, user_data);
 	if (ret != TETHERING_ERROR_NONE)
@@ -77,11 +72,6 @@ static void __set_callbacks(tethering_h handle, void *user_data)
 		ERR("tethering_wifi_set_security_type_changed_cb [0x%X]\n", ret);
 
 	ret = tethering_set_disabled_cb(handle, TETHERING_TYPE_ALL,
-			_disabled_cb, user_data);
-	if (ret != TETHERING_ERROR_NONE)
-		ERR("tethering_set_disabled_cb [0x%X]\n", ret);
-
-	ret = tethering_set_disabled_cb(handle, TETHERING_TYPE_RESERVED,
 			_disabled_cb, user_data);
 	if (ret != TETHERING_ERROR_NONE)
 		ERR("tethering_set_disabled_cb [0x%X]\n", ret);
@@ -125,10 +115,6 @@ static void __unset_callbacks(tethering_h handle)
 	if (ret != TETHERING_ERROR_NONE)
 		ERR("tethering_unset_connection_state_changed_cb[0x%X]\n", ret);
 
-	ret = tethering_unset_disabled_cb(handle, TETHERING_TYPE_RESERVED);
-	if (ret != TETHERING_ERROR_NONE)
-		ERR("tethering_unset_disabled_cb [0x%X]\n", ret);
-
 	ret = tethering_unset_disabled_cb(handle, TETHERING_TYPE_ALL);
 	if (ret != TETHERING_ERROR_NONE)
 		ERR("tethering_unset_disabled_cb [0x%X]\n", ret);
@@ -144,10 +130,6 @@ static void __unset_callbacks(tethering_h handle)
 	ret = tethering_wifi_unset_passphrase_changed_cb(handle);
 	if (ret != TETHERING_ERROR_NONE)
 		ERR("tethering_wifi_unset_passphrase_changed_cb [0x%X]\n", ret);
-
-	ret = tethering_unset_enabled_cb(handle, TETHERING_TYPE_RESERVED);
-	if (ret != TETHERING_ERROR_NONE)
-		ERR("tethering_unset_enabled [0x%X]\n", ret);
 
 	ret = tethering_unset_enabled_cb(handle, TETHERING_TYPE_ALL);
 	if (ret != TETHERING_ERROR_NONE)
@@ -281,12 +263,6 @@ static void on_start(ui_gadget_h ug, app_control_h app_control, void *priv)
 		if (ad->connected_device.navi_it) {
 			_start_update_device_conn_time(ad);
 		}
-	}
-
-	if (tethering_is_enabled(NULL, TETHERING_TYPE_RESERVED) == true) {
-		DBG("MobileAP is turned on\n");
-		_prepare_popup(MH_POPUP_WIFI_AP_OFF, STR_WIFI_AP_CONTROLLED_ANOTHER_APP);
-		_create_popup(ad);
 	}
 
 	app_control_get_extra_data(app_control, "viewtype", &viewtype);
