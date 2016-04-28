@@ -372,27 +372,38 @@ static void __pw_entry_activated_cb(void *data, Evas_Object *obj, void *event_in
 
 static void __pw_entry_focused_cb(void *data, Evas_Object *obj, void *event_info)
 {
-	if (elm_object_part_content_get(obj, "elm.swallow.clear")) {
-		if (!elm_entry_is_empty(obj))
-			elm_object_signal_emit(obj, "elm,state,clear,visible", "");
-		else
-			elm_object_signal_emit(obj, "elm,state,clear,hidden", "");
-	}
-	elm_object_signal_emit(obj, "elm,state,focus,on", "");
+	__MOBILE_AP_FUNC_ENTER__;
+	evas_object_event_callback_del(obj, EVAS_CALLBACK_SHOW, __pw_entry_focused_cb);
+
+	 elm_object_focus_set(obj, EINA_TRUE);
+	 elm_entry_cursor_end_set(obj);
+	 __MOBILE_AP_FUNC_EXIT__;
 }
 
 static void __pw_entry_unfocused_cb(void *data, Evas_Object *obj, void *event_info)
 {
+	__MOBILE_AP_FUNC_ENTER__;
 	if (elm_object_part_content_get(obj, "elm.swallow.clear"))
 		elm_object_signal_emit(obj, "elm,state,clear,hidden", "");
 	elm_object_signal_emit(obj, "elm,state,focus,off", "");
+	__MOBILE_AP_FUNC_EXIT__;
+}
+
+static void __pw_entry_show_cb(void *data, Evas *e, Evas_Object *obj, void *event_info)
+{
+	__MOBILE_AP_FUNC_ENTER__;
+	 evas_object_event_callback_del(obj, EVAS_CALLBACK_SHOW, __pw_entry_show_cb);
+
+	 elm_object_focus_set(obj, EINA_TRUE);
+	 elm_entry_cursor_end_set(obj);
+	 __MOBILE_AP_FUNC_EXIT__;
 }
 
 static void __eraser_btn_clicked_cb(void *data, Evas_Object *obj, void *event_info)
 {
 	__MOBILE_AP_FUNC_ENTER__;
 
-	elm_entry_entry_set(data, "");
+	elm_object_text_set(data, "");
 	elm_entry_input_panel_return_key_disabled_set(data, TRUE);
 
 	__MOBILE_AP_FUNC_EXIT__;
@@ -461,9 +472,8 @@ static Evas_Object *__get_pw_entry(void *data, Evas_Object *parent)
 	elm_entry_prediction_allow_set(entry, EINA_FALSE);
 	elm_object_signal_emit(entry, "elm,action,hide,search_icon", "");
 	elm_entry_input_panel_layout_set(entry, ELM_INPUT_PANEL_LAYOUT_PASSWORD);
-	elm_entry_cursor_end_set(entry);
 	snprintf(buf, sizeof(buf), fmt, WIFI_PASSPHRASE_LENGTH_MIN);
-	elm_object_part_text_set(entry, "elm.guide", buf);
+	elm_object_part_text_set(entry, "guide", buf);
 	elm_entry_cnp_mode_set(entry, ELM_CNP_MODE_PLAINTEXT);
 
 	limit_filter_data.max_char_count = 0;
@@ -478,9 +488,11 @@ static Evas_Object *__get_pw_entry(void *data, Evas_Object *parent)
 			elm_object_item_signal_emit(st->pw_item, "elm,state,rename,hide", "");
 		return entry;
 	} else {
+		elm_object_disabled_set(entry, EINA_FALSE);
+		elm_entry_input_panel_enabled_set(entry, EINA_TRUE);
 		ptr = elm_entry_utf8_to_markup(st->wifi_passphrase_new);
 		if (ptr != NULL) {
-			elm_entry_entry_set(entry, ptr);
+			elm_object_text_set(entry, ptr);
 			free(ptr);
 		} else {
 			ERR("elm_entry_utf8_to_markup is failed\n");
@@ -507,7 +519,12 @@ static Evas_Object *__get_pw_entry(void *data, Evas_Object *parent)
 			__pw_entry_focused_cb, NULL);
 	evas_object_smart_callback_add(entry, "unfocused",
 			__pw_entry_unfocused_cb, NULL);
+	evas_object_event_callback_add(entry, EVAS_CALLBACK_SHOW,
+			__pw_entry_show_cb, NULL);
 
+//	elm_entry_editable_set(entry, EINA_TRUE);
+	elm_object_focus_set(entry, EINA_TRUE);
+	elm_entry_input_panel_show(entry);
 	elm_object_part_content_set(parent, "elm.swallow.content", entry);
 
 	__MOBILE_AP_FUNC_EXIT__;
@@ -544,11 +561,12 @@ static Evas_Object *__gl_pw_content_get(void *data, Evas_Object *obj, const char
 		return NULL;
 	}
 
-	if (!strcmp(part, "elm.icon.entry")) {
+	if (!strcmp(part, "elm.swallow.content")) {
 		layout = elm_layout_add(obj);
 		elm_layout_theme_set(layout, "layout", "editfield", "singleline");
 		evas_object_size_hint_align_set(layout, EVAS_HINT_FILL, 0.0);
 		evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, 0.0);
+		__get_pw_entry(data, layout);
 	}
 
 	__MOBILE_AP_FUNC_EXIT__;
@@ -653,8 +671,8 @@ static void __set_genlist_itc(mh_appdata_t *ad)
 		__MOBILE_AP_FUNC_EXIT__;
 		return;
 	}
-	ad->setup.pw_itc->item_style = "entry.main";
-	ad->setup.pw_itc->func.text_get = __gl_pw_text_get;
+	ad->setup.pw_itc->item_style = MH_GENLIST_FULL_CONTENT_STYLE;
+//	ad->setup.pw_itc->func.text_get = __gl_pw_text_get;
 	ad->setup.pw_itc->func.content_get = __gl_pw_content_get;
 	ad->setup.pw_itc->func.state_get = NULL;
 	ad->setup.pw_itc->func.del = NULL;
@@ -910,9 +928,10 @@ static void __select_passphrase_item(void *data, Evas_Object *obj, void *event_i
 	elm_genlist_item_selected_set(item, EINA_FALSE);
 
 	layout = elm_layout_add(obj);
-	elm_layout_file_set(layout, FILE_PATH_OF_EDC, "entry_style");
 	evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
 	__get_pw_entry(ad, layout);
+
+	evas_object_show(layout);
 	__MOBILE_AP_FUNC_EXIT__;
 	return;
 }

@@ -40,6 +40,7 @@ extern "C" {
 #define MH_GENLIST_2LINE_BOTTOM_TEXT_ICON_STYLE "type2"
 #define MH_GENLIST_MULTILINE_TEXT_STYLE "multiline"
 #define MH_GENLIST_GROUP_INDEX_STYLE "group_index"
+#define MH_GENLIST_FULL_CONTENT_STYLE "full"
 
 Evas_Object *_create_progressbar(Evas_Object *parent, const char *style);
 Evas_Object *_create_bg(Evas_Object *parent, const char *style);
