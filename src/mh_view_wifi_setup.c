@@ -554,7 +554,8 @@ static Evas_Object *__gl_pw_content_get(void *data, Evas_Object *obj, const char
 {
 	__MOBILE_AP_FUNC_ENTER__;
 
-	Evas_Object * layout = NULL;
+	int w = 720;
+	int h = 60;
 
 	if (data == NULL) {
 		ERR("data is null \n");
@@ -562,15 +563,39 @@ static Evas_Object *__gl_pw_content_get(void *data, Evas_Object *obj, const char
 	}
 
 	if (!strcmp(part, "elm.swallow.content")) {
-		layout = elm_layout_add(obj);
+		Evas_Object *box = elm_box_add(obj);
+		Evas_Object *label = elm_label_add(box);
+		Evas_Object *layout = elm_layout_add(box);
+		char buf[MH_LABEL_LENGTH_MAX] = {0, };
+
+		elm_box_align_set(box, 0.5, 0.5);
+
+		/* Set label for name field */
+		snprintf(buf, MH_LABEL_LENGTH_MAX, "<text align=left><font_size=30>%s</font_size></text>", STR_PASSWORD);
+		elm_object_text_set(label, buf);
+		evas_object_size_hint_align_set(label, EVAS_HINT_FILL, EVAS_HINT_FILL);
+		evas_object_size_hint_weight_set(label, 0.9, EVAS_HINT_EXPAND);
+		evas_object_size_hint_padding_set(label, ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10));
+		elm_box_pack_end(box, label);
+		evas_object_show(label);
+
+		/* Set layout for entry field */
 		elm_layout_theme_set(layout, "layout", "editfield", "singleline");
-		evas_object_size_hint_align_set(layout, EVAS_HINT_FILL, 0.0);
-		evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, 0.0);
+		evas_object_size_hint_align_set(layout, EVAS_HINT_FILL, EVAS_HINT_FILL);
+		evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+
 		__get_pw_entry(data, layout);
+		evas_object_show(layout);
+		elm_box_pack_end(box, layout);
+
+		evas_object_size_hint_min_set(box, ELM_SCALE_SIZE(w), ELM_SCALE_SIZE(h));
+		evas_object_show(box);
+
+	return box;
 	}
 
 	__MOBILE_AP_FUNC_EXIT__;
-	return layout;
+	return NULL;
 }
 
 static void __gl_hide_item_sel(void *data, Evas_Object *obj, void *event_info)
@@ -672,7 +697,7 @@ static void __set_genlist_itc(mh_appdata_t *ad)
 		return;
 	}
 	ad->setup.pw_itc->item_style = MH_GENLIST_FULL_CONTENT_STYLE;
-//	ad->setup.pw_itc->func.text_get = __gl_pw_text_get;
+	ad->setup.pw_itc->func.text_get = NULL;
 	ad->setup.pw_itc->func.content_get = __gl_pw_content_get;
 	ad->setup.pw_itc->func.state_get = NULL;
 	ad->setup.pw_itc->func.del = NULL;
