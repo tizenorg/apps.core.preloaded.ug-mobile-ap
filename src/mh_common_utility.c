@@ -539,7 +539,7 @@ int _get_sim_state(void)
 		return value;
 	}
 
-#if defined TIZEN_DUALSIM_ENABLE
+#if defined TIZEN_FEATURE_DUALSIM_ENABLE
 	if (vconf_get_int(VCONFKEY_TELEPHONY_SIM_SLOT2, &value) < 0) {
 		ERR("vconf_get_int is failed\n");;
 	}
