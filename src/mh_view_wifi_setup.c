@@ -464,7 +464,6 @@ static Evas_Object *__get_pw_entry(void *data, Evas_Object *parent)
 	elm_entry_scrollable_set(entry, EINA_TRUE);
 	elm_entry_password_set(entry, EINA_FALSE);
 
-	st->pw_entry = entry;
 	evas_object_smart_callback_add(entry, "language,changed",
 			__pw_entry_language_changed_cb, ad);
 
@@ -499,7 +498,7 @@ static Evas_Object *__get_pw_entry(void *data, Evas_Object *parent)
 		}
 	}
 
-	elm_entry_input_panel_return_key_type_set(st->pw_entry,
+	elm_entry_input_panel_return_key_type_set(entry,
 			ELM_INPUT_PANEL_RETURN_KEY_TYPE_DONE);
 
 	clr_btn = elm_button_add(entry);
@@ -522,10 +521,11 @@ static Evas_Object *__get_pw_entry(void *data, Evas_Object *parent)
 	evas_object_event_callback_add(entry, EVAS_CALLBACK_SHOW,
 			__pw_entry_show_cb, NULL);
 
-//	elm_entry_editable_set(entry, EINA_TRUE);
 	elm_object_focus_set(entry, EINA_TRUE);
 	elm_entry_input_panel_show(entry);
 	elm_object_part_content_set(parent, "elm.swallow.content", entry);
+
+	st->pw_entry = entry;
 
 	__MOBILE_AP_FUNC_EXIT__;
 	return st->pw_entry;
@@ -949,14 +949,10 @@ static void __select_passphrase_item(void *data, Evas_Object *obj, void *event_i
 	Elm_Object_Item *item = (Elm_Object_Item *)event_info;
 	Evas_Object *layout = NULL;
 	mh_appdata_t *ad = (mh_appdata_t *)data;
+	mh_wifi_setting_view_t *st = &ad->setup;
 
-	elm_genlist_item_selected_set(item, EINA_FALSE);
+	elm_object_focus_set(st->pw_entry, EINA_TRUE);
 
-	layout = elm_layout_add(obj);
-	evas_object_size_hint_weight_set(layout, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
-	__get_pw_entry(ad, layout);
-
-	evas_object_show(layout);
 	__MOBILE_AP_FUNC_EXIT__;
 	return;
 }
