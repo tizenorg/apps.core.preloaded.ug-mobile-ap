@@ -373,7 +373,7 @@ static void __pw_entry_activated_cb(void *data, Evas_Object *obj, void *event_in
 static void __pw_entry_focused_cb(void *data, Evas_Object *obj, void *event_info)
 {
 	__MOBILE_AP_FUNC_ENTER__;
-	evas_object_event_callback_del(obj, EVAS_CALLBACK_SHOW, __pw_entry_focused_cb);
+	evas_object_smart_callback_del(obj, "focused", __pw_entry_focused_cb);
 
 	 elm_object_focus_set(obj, EINA_TRUE);
 	 elm_entry_cursor_end_set(obj);
@@ -529,25 +529,6 @@ static Evas_Object *__get_pw_entry(void *data, Evas_Object *parent)
 
 	__MOBILE_AP_FUNC_EXIT__;
 	return st->pw_entry;
-}
-
-static char *__gl_pw_text_get(void *data, Evas_Object *obj, const char *part)
-{
-	__MOBILE_AP_FUNC_ENTER__;
-	char buf[MH_LABEL_LENGTH_MAX] = {0, };
-
-	if (data == NULL || obj == NULL || part == NULL) {
-		ERR("Invalid param\n");
-		return NULL;
-	}
-
-	if (!strcmp("elm.text.main", part)) {
-		snprintf(buf, MH_LABEL_LENGTH_MAX, "<font_size=30>%s</font_size>", STR_PASSWORD);
-		return strdup(buf);
-	}
-
-	__MOBILE_AP_FUNC_EXIT__;
-	return NULL;
 }
 
 static Evas_Object *__gl_pw_content_get(void *data, Evas_Object *obj, const char *part)
@@ -946,8 +927,6 @@ static void __select_passphrase_item(void *data, Evas_Object *obj, void *event_i
 		return;
 	}
 
-	Elm_Object_Item *item = (Elm_Object_Item *)event_info;
-	Evas_Object *layout = NULL;
 	mh_appdata_t *ad = (mh_appdata_t *)data;
 	mh_wifi_setting_view_t *st = &ad->setup;
 
