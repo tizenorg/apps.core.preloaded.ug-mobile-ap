@@ -134,9 +134,8 @@ static char *__gl_device_name_title_label_get(void *data, Evas_Object *obj, cons
 
 	if (!strcmp("elm.text.multiline", part)) {
 		device_name_utf = vconf_get_str(VCONFKEY_SETAPPL_DEVICE_NAME_STR);
-		if (device_name_utf == NULL) {
+		if (device_name_utf == NULL)
 			ERR("vconf_get_str failed \n");
-		}
 
 		ptr = elm_entry_utf8_to_markup(device_name_utf);
 		if (ptr == NULL) {
@@ -169,9 +168,8 @@ static char *__gl_hide_label_get(void *data, Evas_Object *obj, const char *part)
 		return NULL;
 	}
 
-	if (!strcmp("elm.text", part)) {
+	if (!strcmp("elm.text", part))
 		return strdup(STR_HIDE_MY_DEV);
-	}
 
 	__MOBILE_AP_FUNC_EXIT__;
 	return NULL;
@@ -186,9 +184,8 @@ static char *__gl_security_label_get(void *data, Evas_Object *obj, const char *p
 		return NULL;
 	}
 
-	if (!strcmp("elm.text", part)) {
+	if (!strcmp("elm.text", part))
 		return strdup(STR_SECURITY_TYPE);
-	}
 
 	__MOBILE_AP_FUNC_EXIT__;
 	return NULL;
@@ -349,9 +346,8 @@ static void __pw_entry_maxlength_reached_cb(void *data, Evas_Object *obj,
 			WIFI_PASSPHRASE_LENGTH_MIN, WIFI_PASSPHRASE_LENGTH_MAX);
 
 	ret = notification_status_message_post(buf);
-	if (ret != NOTIFICATION_ERROR_NONE) {
+	if (ret != NOTIFICATION_ERROR_NONE)
 		ERR("notification_status_message_post() is failed : %d\n", ret);
-	}
 
 	__MOBILE_AP_FUNC_EXIT__;
 }
@@ -809,7 +805,7 @@ static void __save_btn_cb(void *data, Evas_Object *object, void *event_info)
 		if (ret == false) {
 			g_strlcpy(st->wifi_passphrase_new, st->wifi_passphrase,
 					sizeof(st->wifi_passphrase_new));
-			if(st->pw_item)
+			if (st->pw_item)
 				elm_genlist_item_update(st->pw_item);
 		} else {
 			g_strlcpy(st->wifi_passphrase, st->wifi_passphrase_new,
@@ -869,13 +865,11 @@ Eina_Bool _setting_back_btn_cb(void *data, Elm_Object_Item *navi_item)
 	mh_appdata_t *ad = (mh_appdata_t *)data;
 	mh_wifi_setting_view_t *st = &ad->setup;
 
-	if (st->visibility != st->visibility_new) {
+	if (st->visibility != st->visibility_new)
 		st->visibility_new = st->visibility;
-	}
 
-	if (st->security_type != st->security_type_new) {
+	if (st->security_type != st->security_type_new)
 		st->security_type_new = st->security_type;
-	}
 
 	if (strcmp(st->wifi_passphrase_new, st->wifi_passphrase)) {
 		g_strlcpy(st->wifi_passphrase_new, st->wifi_passphrase,
@@ -907,14 +901,12 @@ static void __gl_realized(void *data, Evas_Object *obj, void *event_info)
 	int no_of_sp;
 	int i;
 
-	if (item == st->hide_item) {
+	if (item == st->hide_item)
 		elm_object_item_signal_emit(item, "elm,state,top", "");
-	} else if (item == st->security_item) {
+	else if (item == st->security_item)
 		elm_object_item_signal_emit(item, "elm,state,center", "");
-	} else if (item == st->pw_item) {
+	else if (item == st->pw_item)
 		elm_object_item_signal_emit(item, "elm,state,bottom", "");
-	} else if (item == st->name_item) {
-	}
 
 	no_of_sp = sizeof(st->sp_item) / sizeof(st->sp_item[0]);
 	for (i = 0; i < no_of_sp; i++) {
@@ -982,7 +974,6 @@ Evas_Object *__create_genlist(mh_appdata_t *ad)
 	elm_object_style_set(genlist, "dialogue");
 	elm_genlist_mode_set(genlist, ELM_LIST_COMPRESS);
 	evas_object_smart_callback_add(genlist, "realized", __gl_realized, ad);
-	//elm_genlist_realization_mode_set(genlist, EINA_TRUE);
 
 	__set_genlist_itc(ad);
 

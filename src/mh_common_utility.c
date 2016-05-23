@@ -79,19 +79,19 @@ void _device_name_changed_cb(keynode_t *key, void *data)
 		return;
 	}
 	dev_name = vconf_keynode_get_str(key);
-	if (ad->setup.name_item != NULL) {
+	if (ad->setup.name_item != NULL)
 		elm_genlist_item_update(ad->setup.name_item);
-	}
-	if (ad->main.help_item != NULL) {
+
+	if (ad->main.help_item != NULL)
 		elm_genlist_item_update(ad->main.help_item);
-	}
+
 	if (ad->rename_popup) {
 		elm_entry_entry_set(ad->rename_entry, dev_name);
 		elm_entry_cursor_end_set(ad->rename_entry);
 	}
-	if (ad->main.hotspot_mode & VCONFKEY_MOBILE_HOTSPOT_MODE_WIFI) {
+	if (ad->main.hotspot_mode & VCONFKEY_MOBILE_HOTSPOT_MODE_WIFI)
 		_update_wifi_item(ad, MH_STATE_PROCESS);
-	}
+
 	return;
 }
 
@@ -245,9 +245,9 @@ void _handle_mobileap_syspopup_popup_response(keynode_t *key, void *data)
 	vconf_key = vconf_keynode_get_int(key);
 
 	if (vconf_key) {
-		if (vconf_set_int(VCONF_KEY_MOBILEAP_SYSPOPUP_RESPONSE, 0) < 0) {
+		if (vconf_set_int(VCONF_KEY_MOBILEAP_SYSPOPUP_RESPONSE, 0) < 0)
 			ERR("vconf_set_int is failed\n");
-		}
+
 		if (ad->type != TETHERING_TYPE_WIFI) {
 			DBG("no need to handle user response\n");
 			return;
@@ -282,9 +282,9 @@ void _handle_usb_status_change(keynode_t *key, void *data)
 	}
 
 	vconf_key = vconf_keynode_get_int(key);
-	if (vconf_key == SETTING_USB_NONE_MODE) {
+	if (vconf_key == SETTING_USB_NONE_MODE)
 		return;
-	}
+
 	if (vconf_key != VCONFKEY_SYSMAN_USB_AVAILABLE) {
 		if (ad->type == TETHERING_TYPE_USB && ad->popup) {
 			evas_object_del(ad->popup);
@@ -330,7 +330,7 @@ Eina_Bool _get_no_of_connected_device(mh_appdata_t *ad, int *no, tethering_type_
 	tethering_error_e ret;
 	int count = 0;
 
-	for (l = ad->client_list; l != NULL; l = g_slist_next(l) ) {
+	for (l = ad->client_list; l != NULL; l = g_slist_next(l)) {
 		handle = l->data;
 		if (handle == NULL)
 			continue;
@@ -385,7 +385,7 @@ void _release_list_client_handle(mh_appdata_t *ad)
 	GSList *l = NULL;
 	tethering_client_h handle;
 
-	for (l = ad->client_list; l != NULL; l = g_slist_next(l) ) {
+	for (l = ad->client_list; l != NULL; l = g_slist_next(l)) {
 		handle = l->data;
 		if (handle == NULL)
 			continue;
@@ -509,9 +509,8 @@ void _get_list_clients_informations(mh_appdata_t *ad)
 
 void _free_genlist_item(Elm_Object_Item **item)
 {
-	if (*item == NULL) {
+	if (*item == NULL)
 		return;
-	}
 
 	elm_object_item_del(*item);
 	*item = NULL;
@@ -519,9 +518,8 @@ void _free_genlist_item(Elm_Object_Item **item)
 
 void _free_genlist_itc(Elm_Genlist_Item_Class **itc)
 {
-	if (*itc == NULL) {
+	if (*itc == NULL)
 		return;
-	}
 
 	elm_genlist_item_class_free(*itc);
 	*itc = NULL;
@@ -531,13 +529,12 @@ int _get_sim_state(void)
 {
 	int value = 0;
 
-	if (vconf_get_int(VCONFKEY_TELEPHONY_SIM_SLOT, &value) < 0) {
+	if (vconf_get_int(VCONFKEY_TELEPHONY_SIM_SLOT, &value) < 0)
 		ERR("vconf_get_int is failed\n");
-	}
+
 	DBG("%s : %d\n", VCONFKEY_TELEPHONY_SIM_SLOT, value);
-	if (value == VCONFKEY_TELEPHONY_SIM_INSERTED) {
+	if (value == VCONFKEY_TELEPHONY_SIM_INSERTED)
 		return value;
-	}
 
 #if defined TIZEN_FEATURE_DUALSIM_ENABLE
 	if (vconf_get_int(VCONFKEY_TELEPHONY_SIM_SLOT2, &value) < 0) {

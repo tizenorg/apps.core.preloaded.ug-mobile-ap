@@ -19,9 +19,8 @@ static void __deconstruct_conn_clients_view(mh_appdata_t *ad)
 	int i = 0;
 
 	no_of_dev = _get_list_clients_count(ad);
-	for (i = 0; i < no_of_dev; i++) {
+	for (i = 0; i < no_of_dev; i++)
 		_free_genlist_item(&ad->connected_device.station_items[i]);
-	}
 
 	_free_genlist_itc(&client->dev_itc[TETHERING_TYPE_WIFI]);
 	_free_genlist_itc(&client->dev_itc[TETHERING_TYPE_BT]);
@@ -53,7 +52,7 @@ static void __update_connected_client_view(mh_appdata_t *ad)
 
 	elm_genlist_clear(cli_view->genlist);
 
-	for (l = ad->client_list; l != NULL; l = g_slist_next(l) ) {
+	for (l = ad->client_list; l != NULL; l = g_slist_next(l)) {
 		handle = (tethering_client_h *)l->data;
 		tethering_client_get_tethering_type(handle, &connection_type);
 
@@ -143,9 +142,8 @@ static char *__gl_get_dev_label(void *data, Evas_Object *obj, const char *part)
 
 	if (!strcmp("elm.text", part)) {
 		tethering_client_get_name(client, &name);
-		if (NULL == name) {
+		if (NULL == name)
 			return NULL;
-		}
 
 		if (!strcmp(name, "UNKNOWN")) {
 			free(name);
@@ -300,7 +298,7 @@ static void __create_genlist(mh_appdata_t *ad)
 
 	__set_genlist_itc(ad);
 
-	for (l = ad->client_list; l != NULL; l = g_slist_next(l) ) {
+	for (l = ad->client_list; l != NULL; l = g_slist_next(l)) {
 		handle = (tethering_client_h *)l->data;
 		tethering_client_get_tethering_type(handle, &connection_type);
 
