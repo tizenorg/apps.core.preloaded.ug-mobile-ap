@@ -545,19 +545,43 @@ static Evas_Object *__gl_pw_content_get(void *data, Evas_Object *obj, const char
 
 	if (!strcmp(part, "elm.swallow.content")) {
 		Evas_Object *box = elm_box_add(obj);
-		Evas_Object *label = elm_label_add(box);
+		Evas_Object *ibox = elm_box_add(box);
+		Evas_Object *tpadding = evas_object_rectangle_add(box);
+		Evas_Object *lpadding = evas_object_rectangle_add(ibox);
+		Evas_Object *label = elm_label_add(ibox);
 		Evas_Object *layout = elm_layout_add(box);
 		char buf[MH_LABEL_LENGTH_MAX] = {0, };
 
-		elm_box_align_set(box, 0.5, 0.5);
+		elm_box_align_set(box, 0.0, 0.0);
+
+		/* Set rectangle for top padding */
+		evas_object_size_hint_min_set(tpadding, 0, ELM_SCALE_SIZE(10));
+		evas_object_size_hint_padding_set(tpadding, ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10));
+		evas_object_color_set(tpadding, 255, 255, 255, 0);
+		evas_object_show(tpadding);
+		elm_box_pack_end(box, tpadding);
+
+		/* Set internal box */
+		evas_object_size_hint_align_set(ibox, 0.0, 0.0);
+		evas_object_size_hint_padding_set(ibox, ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(20), 0);
+		elm_box_horizontal_set(ibox, EINA_TRUE);
+		elm_box_pack_end(box, ibox);
+
+		/* Set rectangle for left padding */
+		evas_object_size_hint_min_set(lpadding, ELM_SCALE_SIZE(15), ELM_SCALE_SIZE(10));
+		evas_object_size_hint_padding_set(lpadding, ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10));
+		evas_object_color_set(lpadding, 255, 255, 255, 0);
+		evas_object_show(lpadding);
+		elm_box_pack_end(ibox, lpadding);
+		evas_object_show(ibox);
 
 		/* Set label for name field */
 		snprintf(buf, MH_LABEL_LENGTH_MAX, "<text align=left><font_size=30>%s</font_size></text>", STR_PASSWORD);
 		elm_object_text_set(label, buf);
 		evas_object_size_hint_align_set(label, EVAS_HINT_FILL, EVAS_HINT_FILL);
 		evas_object_size_hint_weight_set(label, 0.9, EVAS_HINT_EXPAND);
-		evas_object_size_hint_padding_set(label, ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10));
-		elm_box_pack_end(box, label);
+		evas_object_size_hint_padding_set(label, ELM_SCALE_SIZE(10), ELM_SCALE_SIZE(10), 0, 0);
+		elm_box_pack_end(ibox, label);
 		evas_object_show(label);
 
 		/* Set layout for entry field */
