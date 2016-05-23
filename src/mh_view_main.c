@@ -42,11 +42,11 @@ void _rotate_adjust_rename_popup(void)
 	int change_ang = 0;
 
 	change_ang = elm_win_rotation_get(g_ad->win);
-	if (change_ang == 0 || change_ang == 180) {
+	if (change_ang == 0 || change_ang == 180)
 		_hadnle_rename_popup_rotation(EINA_TRUE);
-	} else {
+	else
 		_hadnle_rename_popup_rotation(EINA_FALSE);
-	}
+
 	__MOBILE_AP_FUNC_EXIT__;
 }
 #endif
@@ -105,9 +105,8 @@ Eina_Bool ap_update_data_packet_usage(mh_appdata_t *ad)
 		ERR("Invalid param\n");
 		return EINA_FALSE;
 	}
-	if (ad->main.usage_item == NULL) {
+	if (ad->main.usage_item == NULL)
 		return EINA_TRUE;
-	}
 
 	if (ad->main.usage_item)
 		elm_genlist_item_update(ad->main.usage_item);
@@ -129,9 +128,8 @@ Eina_Bool ap_get_data_statistics(void *data)
 	}
 
 	/* If previous data is not updated, new data is not required */
-	if (ad->data_statistics.is_updated == false) {
+	if (ad->data_statistics.is_updated == false)
 		return ECORE_CALLBACK_RENEW;
-	}
 
 	/* Because previous data is updated, new data is required.
 	   It will be returned asynchronously. */
@@ -175,9 +173,9 @@ void _start_update_device_conn_time(mh_appdata_t *ad)
 		return;
 	}
 
-	if (ad->update_conn_time_handle) {
+	if (ad->update_conn_time_handle)
 		_stop_update_device_conn_time(ad);
-	}
+
 	ad->update_conn_time_handle = ecore_timer_add(UPDATE_INTERVAL,
 			ap_update_device_conn_time, (void *)ad);
 
@@ -210,9 +208,8 @@ void _start_update_data_packet_usage(mh_appdata_t *ad)
 		return;
 	}
 
-	if (ad->update_statistics_handle) {
+	if (ad->update_statistics_handle)
 		_stop_update_data_packet_usage(ad);
-	}
 
 	ad->data_statistics.is_updated = false;
 	tethering_get_data_usage(ad->handle, _data_usage_cb, (void *)ad);
@@ -288,16 +285,16 @@ static void __read_setting(mh_appdata_t *ad)
 	free(passphrase);
 
 	ret = tethering_wifi_get_ssid_visibility(ad->handle, &visibility);
-	if (ret != TETHERING_ERROR_NONE) {
+	if (ret != TETHERING_ERROR_NONE)
 		ERR("tethering_wifi_get_ssid_visibility is failed\n");
-	}
+
 	ad->setup.visibility = visibility;
 	ad->setup.visibility_new = visibility;
 
 	ret = tethering_wifi_get_security_type(ad->handle, &type);
-	if (ret != TETHERING_ERROR_NONE) {
+	if (ret != TETHERING_ERROR_NONE)
 		ERR("tethering_wifi_get_security_type is failed\n");
-	}
+
 	ad->setup.security_type = type;
 	ad->setup.security_type_new = type;
 
@@ -308,9 +305,8 @@ void _update_wifi_item(mh_appdata_t *ad, int wifi_state)
 {
 	__MOBILE_AP_FUNC_ENTER__;
 
-	if (ad->main.wifi_state == wifi_state) {
+	if (ad->main.wifi_state == wifi_state)
 		return;
-	}
 
 	if (ad->main.wifi_state == MH_STATE_PROCESS) {
 		ad->main.wifi_state = MH_STATE_NONE;
@@ -335,9 +331,8 @@ void _update_bt_item(mh_appdata_t *ad, int bt_state)
 {
 	__MOBILE_AP_FUNC_ENTER__;
 
-	if (ad->main.bt_state == bt_state) {
+	if (ad->main.bt_state == bt_state)
 		return;
-	}
 
 	if (ad->main.bt_state == MH_STATE_PROCESS) {
 		ad->main.bt_state = MH_STATE_NONE;
@@ -359,9 +354,8 @@ void _update_usb_item(mh_appdata_t *ad, int usb_state)
 {
 	__MOBILE_AP_FUNC_ENTER__;
 
-	if (ad->main.usb_state == usb_state) {
+	if (ad->main.usb_state == usb_state)
 		return;
-	}
 
 	if (ad->main.usb_state == MH_STATE_PROCESS) {
 		ad->main.usb_state = MH_STATE_NONE;
@@ -407,9 +401,8 @@ void _genlist_update_device_item(mh_appdata_t *ad)
 		ad->main.device_item = item;
 	}
 
-	if (ad->connected_device.navi_it) {
+	if (ad->connected_device.navi_it)
 		_update_conn_clients(ad);
-	}
 
 	__MOBILE_AP_FUNC_EXIT__;
 	return;
@@ -536,13 +529,11 @@ void _update_main_view(mh_appdata_t *ad, tethering_type_e type)
 			_update_wifi_item(ad, MH_STATE_NONE);
 		} else {
 			obj = elm_object_item_part_content_get(ad->main.wifi_item, "elm.swallow.end");
-			if (obj != NULL) {
+			if (obj != NULL)
 				elm_check_state_set(obj, wifi_state);
-			}
 
-			if (ad->main.wifi_item) {
+			if (ad->main.wifi_item)
 				elm_genlist_item_update(ad->main.wifi_item);
-			}
 		}
 		break;
 
@@ -552,13 +543,11 @@ void _update_main_view(mh_appdata_t *ad, tethering_type_e type)
 			_update_bt_item(ad, MH_STATE_NONE);
 		} else {
 			obj = elm_object_item_part_content_get(ad->main.bt_item, "elm.swallow.end");
-			if (obj != NULL) {
+			if (obj != NULL)
 				elm_check_state_set(obj, bt_state);
-			}
 
-			if (ad->main.bt_item) {
+			if (ad->main.bt_item)
 				elm_genlist_item_update(ad->main.bt_item);
-			}
 		}
 		break;
 
@@ -746,9 +735,8 @@ static void  __back_btn_cb(void *data, Elm_Object_Item *navi_item)
 
 static char *__get_wifi_label(void *data, Evas_Object *obj, const char *part)
 {
-	if (!strcmp("elm.text", part)) {
+	if (!strcmp("elm.text", part))
 		return strdup(STR_WIFI_TETH);
-	}
 
 	return NULL;
 }
@@ -787,9 +775,8 @@ static Evas_Object *__get_wifi_icon(void *data, Evas_Object *obj,
 
 static char *__get_bt_label(void *data, Evas_Object *obj, const char *part)
 {
-	if (!strcmp("elm.text", part)) {
+	if (!strcmp("elm.text", part))
 		return strdup(STR_BLUETOOTH_TETH);
-	}
 
 	return NULL;
 }
@@ -828,9 +815,8 @@ static Evas_Object *__get_bt_icon(void *data, Evas_Object *obj, const char *part
 
 static char *__get_usb_label(void *data, Evas_Object *obj, const char *part)
 {
-	if (!strcmp("elm.text", part)) {
+	if (!strcmp("elm.text", part))
 		return strdup(STR_USB_TETH);
-	}
 
 	return NULL;
 }
@@ -1402,16 +1388,16 @@ static void __ctx_move_more_ctxpopup(Evas_Object *ctx, mh_appdata_t *ad)
 	pos = elm_win_rotation_get(ad->win);
 
 	switch (pos) {
-		case 0:
-		case 180:
-			evas_object_move(ctx, w/2, h);
-			break;
-		case 90:
-			evas_object_move(ctx, h/2, w);
-			break;
-		case 270:
-			evas_object_move(ctx, h/2, w);
-			break;
+	case 0:
+	case 180:
+		evas_object_move(ctx, w/2, h);
+		break;
+	case 90:
+		evas_object_move(ctx, h/2, w);
+		break;
+	case 270:
+		evas_object_move(ctx, h/2, w);
+		break;
 	}
 	__MOBILE_AP_FUNC_EXIT__;
 }
@@ -1497,9 +1483,8 @@ static void __create_ctxpopup_more_button(void *data, Evas_Object *obj,
 	}
 	__MOBILE_AP_FUNC_ENTER__;
 
-	if (ad->setup.navi_it == NULL) {
+	if (ad->setup.navi_it == NULL)
 		return;
-	}
 
 	elm_naviframe_item_pop_cb_set(ad->setup.navi_it, _setting_back_btn_cb, (void *)ad);
 	ctxpopup = elm_ctxpopup_add(ad->naviframe);

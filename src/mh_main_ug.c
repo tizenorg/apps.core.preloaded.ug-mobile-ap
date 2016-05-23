@@ -21,7 +21,9 @@
 #define UG_MODULE_API __attribute__ ((visibility("default")))
 #endif
 
-//#include <setting-cfg.h>
+#if 0
+#include <setting-cfg.h>
+#endif
 
 #include "mobile_hotspot.h"
 #include "mh_view_main.h"
@@ -31,7 +33,9 @@
 #include "mh_string.h"
 #include "mh_view_wifi_setup.h"
 
-//UG_MODULE_API int setting_plugin_search_init(app_control_h app_control, void * priv, char ** domainname);
+#if 0 /* Not support */
+UG_MODULE_API int setting_plugin_search_init(app_control_h app_control, void * priv, char ** domainname);
+#endif
 
 static Evas_Object *create_content(mh_appdata_t *ad)
 {
@@ -230,14 +234,12 @@ static void *on_create(ui_gadget_h ug, enum ug_mode mode,
 	elm_object_part_content_set(layout, "elm.swallow.content", content);
 	evas_object_show(layout);
 	ret = connection_create(&ad->conn_handle);
-	if (ret != CONNECTION_ERROR_NONE) {
+	if (ret != CONNECTION_ERROR_NONE)
 		ERR("connection_create() is failed : %d\n", ret);
-	}
 
 	ret = wifi_initialize();
-	if (ret != WIFI_ERROR_NONE) {
+	if (ret != WIFI_ERROR_NONE)
 		ERR("wifi_initialize() is failed : %d\n", ret);
-	}
 
 	__set_callbacks(ad->handle, (void *)ad);
 
@@ -260,15 +262,14 @@ static void on_start(ui_gadget_h ug, app_control_h app_control, void *priv)
 #ifdef TETHERING_DATA_USAGE_SUPPORT
 		_start_update_data_packet_usage(ad);
 #endif
-		if (ad->connected_device.navi_it) {
+		if (ad->connected_device.navi_it)
 			_start_update_device_conn_time(ad);
-		}
 	}
 
 	app_control_get_extra_data(app_control, "viewtype", &viewtype);
 
 	if (viewtype != NULL) {
-		if(strcmp(viewtype, "wifisettings") == 0)
+		if (strcmp(viewtype, "wifisettings") == 0)
 			mh_draw_wifi_setup_view(ad);
 		g_free(viewtype);
 	}
@@ -305,7 +306,7 @@ static void on_resume(ui_gadget_h ug, app_control_h app_control, void *priv)
 	ad->is_foreground = true;
 
 	if (item && elm_genlist_item_expanded_get(item)) {
-		for (l = ad->client_list; l != NULL; l = g_slist_next(l) ) {
+		for (l = ad->client_list; l != NULL; l = g_slist_next(l)) {
 			item = elm_genlist_item_next_get(item);
 			elm_genlist_item_fields_update(item, "elm.text", ELM_GENLIST_ITEM_FIELD_TEXT);
 		}
@@ -315,9 +316,8 @@ static void on_resume(ui_gadget_h ug, app_control_h app_control, void *priv)
 #ifdef TETHERING_DATA_USAGE_SUPPORT
 		_start_update_data_packet_usage(ad);
 #endif
-		if (ad->connected_device.navi_it) {
+		if (ad->connected_device.navi_it)
 			_start_update_device_conn_time(ad);
-		}
 	}
 	DBG("-\n");
 }
@@ -347,24 +347,20 @@ static void on_destroy(ui_gadget_h ug, app_control_h app_control, void *priv)
 #endif
 	_stop_update_device_conn_time(ad);
 
-	if (vconf_set_int(VCONF_MOBILE_AP_CONNECT_USB_POPUP_STATUS, 0) < 0) {
+	if (vconf_set_int(VCONF_MOBILE_AP_CONNECT_USB_POPUP_STATUS, 0) < 0)
 		ERR("vconf_set_int is failed\n");
-	}
 
 	ret = wifi_deinitialize();
-	if (ret != WIFI_ERROR_NONE) {
+	if (ret != WIFI_ERROR_NONE)
 		ERR("wifi_deinitialize() is failed : %d\n", ret);
-	}
 
 	ret = connection_destroy(ad->conn_handle);
-	if (ret != CONNECTION_ERROR_NONE) {
+	if (ret != CONNECTION_ERROR_NONE)
 		ERR("connection_destroy() is failed : %d\n", ret);
-	}
 
 	ret = tethering_destroy(ad->handle);
-	if (ret != TETHERING_ERROR_NONE) {
+	if (ret != TETHERING_ERROR_NONE)
 		ERR("tethering_destroy() is failed : %d\n", ret);
-	}
 
 	if (ad->layout == NULL) {
 		ERR("ad->layout is NULL\n");
@@ -378,7 +374,7 @@ static void on_destroy(ui_gadget_h ug, app_control_h app_control, void *priv)
 		ad->popup = NULL;
 	}
 
-	if(ad->ps_recheck_timer_id > 0) {
+	if (ad->ps_recheck_timer_id > 0) {
 		g_source_remove(ad->ps_recheck_timer_id);
 		ad->ps_recheck_timer_id = 0;
 	}
