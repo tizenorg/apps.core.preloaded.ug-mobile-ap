@@ -35,7 +35,7 @@ static void __launch_network_app(void)
 	app_control_h app_control;
 
 	app_control_create(&app_control);
-	if(ret != APP_CONTROL_ERROR_NONE) {
+	if (ret != APP_CONTROL_ERROR_NONE) {
 		ERR("app_control_create failed");
 		return;
 	}
@@ -44,11 +44,10 @@ static void __launch_network_app(void)
 	app_control_set_app_id(app_control, "setting-network-efl");
 
 	ret = app_control_send_launch_request(app_control, NULL, NULL);
-	if(ret == APP_CONTROL_ERROR_NONE) {
+	if (ret == APP_CONTROL_ERROR_NONE)
 		DBG("Launch network ug successful");
-	} else {
+	else
 		ERR("Fail to launch network ug");
-	}
 
 	app_control_destroy(app_control);
 }
@@ -80,9 +79,9 @@ static void __handle_popup_resp(void *data, bool response)
 	if (response == true) {
 		switch (popup_type) {
 		case MH_POPUP_WIFI_ON_CHECKBOX:
-			if(state) {
+			if (state)
 				_set_checkbox_status(TETHERING_TYPE_WIFI, 1);
-			}
+
 			ad->is_wifi_teth_enabling = false;
 			ret = tethering_enable(ad->handle, TETHERING_TYPE_WIFI);
 			if (ret != TETHERING_ERROR_NONE) {
@@ -94,9 +93,9 @@ static void __handle_popup_resp(void *data, bool response)
 			break;
 
 		case MH_POPUP_BT_ON_CHECKBOX:
-			if(state) {
+			if (state)
 				_set_checkbox_status(TETHERING_TYPE_BT, 1);
-			}
+
 			ad->is_bt_teth_enabling = false;
 			ret = tethering_enable(ad->handle, TETHERING_TYPE_BT);
 			if (ret != TETHERING_ERROR_NONE) {
@@ -106,9 +105,9 @@ static void __handle_popup_resp(void *data, bool response)
 			break;
 
 		case MH_POPUP_USB_ON_CHECKBOX:
-			if(state) {
+			if (state)
 				_set_checkbox_status(TETHERING_TYPE_USB, 1);
-			}
+
 			if (_get_vconf_usb_state() != VCONFKEY_SYSMAN_USB_AVAILABLE) {
 				_update_tethering_item(ad, MH_STATE_NONE);
 				break;
@@ -152,7 +151,7 @@ static void __handle_popup_resp(void *data, bool response)
 			break;
 
 		case MH_POPUP_USB_ON_CHECKBOX:
-			_update_tethering_enabling_item(ad,TETHERING_TYPE_USB, MH_STATE_NONE);
+			_update_tethering_enabling_item(ad, TETHERING_TYPE_USB, MH_STATE_NONE);
 			break;
 
 		case MH_POPUP_WIFI_AP_OFF:
@@ -212,9 +211,8 @@ static void __popup_no_btn_mouse_event_cb(void *data, Evas *evas, Evas_Object *o
 
 	Evas_Event_Mouse_Up *ev = event_info;
 
-	if (ev->button == 3) {
+	if (ev->button == 3)
 		__handle_popup_resp(data, false);
-	}
 }
 
 static void __popup_block_clicked_cb(void *data, Evas_Object *obj, void *event_info)
@@ -297,20 +295,20 @@ static void __language_changed_cb(void *data, Evas_Object *obj, void *event_info
 	char *fmt = NULL;
 	char str[MH_LABEL_LENGTH_MAX];
 
-	if (ad->type < TETHERING_TYPE_USB || ad->type > TETHERING_TYPE_BT ) {
+	if (ad->type < TETHERING_TYPE_USB || ad->type > TETHERING_TYPE_BT) {
 		ERR("Invalid Tethering type\n");
 		return;
 	}
 
-	switch(ad->type) {
+	switch (ad->type) {
 	case TETHERING_TYPE_WIFI:
 		wifi_is_activated(&wifi_state);
 		_set_vconf_prev_wifi_state(wifi_state);
-		if (wifi_state == true || _is_wifi_direct_on() == true) {
+		if (wifi_state == true || _is_wifi_direct_on() == true)
 			fmt = STR_TETH_ON_DESC_1;
-		} else {
+		else
 			fmt = STR_TETH_ON_DESC_2;
-		}
+
 		snprintf(str, MH_LABEL_LENGTH_MAX, fmt, TETHERING_WIFI_MAX_CONNECTED_STA);
 		break;
 
@@ -419,7 +417,7 @@ static void __popup_with_checkbox(mh_appdata_t *ad)
 		elm_object_focus_next_object_set(yes_button, check, ELM_FOCUS_NEXT);
 		if (cancel_button) {
 			elm_object_focus_next_object_set(cancel_button, check, ELM_FOCUS_PREVIOUS);
-			elm_object_focus_next_object_set(check ,cancel_button, ELM_FOCUS_NEXT);
+			elm_object_focus_next_object_set(check , cancel_button, ELM_FOCUS_NEXT);
 		}
 	}
 
@@ -478,7 +476,7 @@ Eina_Bool _create_popup(mh_appdata_t *ad)
 		else
 			elm_object_content_set(popup, popup_content);
 
-		cancel_button =_create_button(popup, STR_CANCEL,
+		cancel_button = _create_button(popup, STR_CANCEL,
 				"button1", __popup_no_btn_clicked_cb, ad);
 		yes_button = _create_button(popup, STR_TURN_OFF,
 				"button2", __popup_yes_btn_clicked_cb, ad);

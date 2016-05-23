@@ -28,23 +28,20 @@ static bool is_wifi_tethering_checkbox_popup_active = false;
 
 void _update_tethering_enabling_item(mh_appdata_t *ad, tethering_type_e type, mh_state_e state)
 {
-	switch(type) {
+	switch (type) {
 	case TETHERING_TYPE_WIFI:
 		_update_wifi_item(ad, MH_STATE_NONE);
 		ad->is_wifi_teth_enabling = false;
 		break;
-
 	case TETHERING_TYPE_BT:
 		_update_bt_item(ad, MH_STATE_NONE);
 		ad->is_bt_teth_enabling = false;
 		break;
-
 	case TETHERING_TYPE_USB:
 		_update_usb_item(ad, MH_STATE_NONE);
 		ad->is_usb_teth_enabling = false;
 		break;
-
-	default :
+	default:
 		ERR("invalid type \n");
 		break;
 	}
@@ -75,18 +72,18 @@ int _get_vconf_usb_state()
 void _update_tethering_item(mh_appdata_t * ad, mh_state_e state)
 {
 	ERR("type : %d state : %d\n", ad->type, state);
-	switch(ad->type)	{
-		case TETHERING_TYPE_WIFI:
-			_update_wifi_item(ad, state);
-			break;
-		case TETHERING_TYPE_BT:
-			_update_bt_item(ad, state);
-			break;
-		case TETHERING_TYPE_USB:
-			_update_usb_item(ad, state);
-			break;
-		default:
-			break;
+	switch (ad->type) {
+	case TETHERING_TYPE_WIFI:
+		_update_wifi_item(ad, state);
+		break;
+	case TETHERING_TYPE_BT:
+		_update_bt_item(ad, state);
+		break;
+	case TETHERING_TYPE_USB:
+		_update_usb_item(ad, state);
+		break;
+	default:
+		break;
 	}
 }
 
@@ -98,7 +95,7 @@ gboolean _ps_recheck_timeout_cb(gpointer data)
 
 	DBG("Re-Check cellular state (%d)\n", recheck_count);
 
-	if(cellular_state == CONNECTION_CELLULAR_STATE_FLIGHT_MODE) {
+	if (cellular_state == CONNECTION_CELLULAR_STATE_FLIGHT_MODE) {
 		_update_tethering_item(ad, MH_STATE_NONE);
 		recheck_count = 0;
 		return FALSE;
@@ -130,7 +127,7 @@ gboolean _ps_recheck_timeout_cb(gpointer data)
 			return FALSE;
 		}
 	} else {
-		if(++recheck_count >= PS_RECHECK_COUNT_MAX) {
+		if (++recheck_count >= PS_RECHECK_COUNT_MAX) {
 			DBG("Cellular network is not connected : %d\n", cellular_state);
 			_update_tethering_item(ad, MH_STATE_NONE);
 			_prepare_popup(MH_POPUP_NETWORK_OUT_OF_RANGE, STR_NO_DATA_SERVICE);
@@ -207,7 +204,7 @@ static int __is_preconditions_handled(mh_appdata_t *ad)
 
 	/* Check SIM state */
 	if (_get_sim_state() != VCONFKEY_TELEPHONY_SIM_INSERTED) {
-		if(ad->type == TETHERING_TYPE_WIFI)
+		if (ad->type == TETHERING_TYPE_WIFI)
 			_prepare_popup(MH_POPUP_NO_SIM, STR_INSERT_SIM_TO_USE_TETH);
 		else
 			_prepare_popup(MH_POPUP_NO_SIM, STR_CONN_MOBILE_DATA_TO_USE_TETH);
@@ -227,7 +224,7 @@ static int __is_preconditions_handled(mh_appdata_t *ad)
 	} else {
 		if (vconf_get_bool(VCONFKEY_3G_ENABLE , &dnet_state) < 0) {
 			ERR("vconf_get_bool is failed\n");
-		} else if(dnet_state == 0) {
+		} else if (dnet_state == 0) {
 			DBG("Data Network is not connected");
 			_prepare_popup(MH_POPUP_MOBILE_DATA_OFF, STR_NO_NET_CONN_MSG);
 			_create_popup(ad);
@@ -235,25 +232,28 @@ static int __is_preconditions_handled(mh_appdata_t *ad)
 		}
 		if (cellular_state != CONNECTION_CELLULAR_STATE_CONNECTED &&
 			cellular_state != CONNECTION_CELLULAR_STATE_AVAILABLE) {
-			if(ad->ps_recheck_timer_id > 0) {
+			if (ad->ps_recheck_timer_id > 0) {
 				g_source_remove(ad->ps_recheck_timer_id);
 				ad->ps_recheck_timer_id = 0;
-				if (ad->is_wifi_teth_enabling == true && ad->type != TETHERING_TYPE_WIFI) {
-					_update_tethering_enabling_item(ad, TETHERING_TYPE_WIFI, MH_STATE_NONE);
-				}
-				if (ad->is_bt_teth_enabling == true && ad->type != TETHERING_TYPE_BT) {
-					_update_tethering_enabling_item(ad, TETHERING_TYPE_BT, MH_STATE_NONE);
-				}
-				if (ad->is_usb_teth_enabling == true && ad->type != TETHERING_TYPE_USB) {
-					_update_tethering_enabling_item(ad, TETHERING_TYPE_USB, MH_STATE_NONE);
-				}
+				if (ad->is_wifi_teth_enabling == true
+						&& ad->type != TETHERING_TYPE_WIFI)
+					_update_tethering_enabling_item(ad, TETHERING_TYPE_WIFI,
+													MH_STATE_NONE);
+				if (ad->is_bt_teth_enabling == true
+						&& ad->type != TETHERING_TYPE_BT)
+					_update_tethering_enabling_item(ad, TETHERING_TYPE_BT,
+													MH_STATE_NONE);
+				if (ad->is_usb_teth_enabling == true
+						&& ad->type != TETHERING_TYPE_USB)
+					_update_tethering_enabling_item(ad, TETHERING_TYPE_USB,
+													MH_STATE_NONE);
 			}
-			ad->ps_recheck_timer_id = g_timeout_add(PS_RECHECK_INTERVAL, _ps_recheck_timeout_cb, (void*)ad);
+			ad->ps_recheck_timer_id = g_timeout_add(PS_RECHECK_INTERVAL,
+										_ps_recheck_timeout_cb, (void*)ad);
 			return 0;
 		}
 	}
 
-	DBG("Cellular network is connected\n");
 	DBG("-\n");
 	return 1;
 }
@@ -269,11 +269,11 @@ int _create_wifi_hotspot_on_popup(mh_appdata_t *ad)
 	_set_vconf_prev_wifi_state(wifi_state);
 	value = _get_checkbox_status(TETHERING_TYPE_WIFI);
 	if (0 == value) {
-		if (wifi_state == true || _is_wifi_direct_on() == true) {
+		if (wifi_state == true || _is_wifi_direct_on() == true)
 			fmt = STR_TETH_ON_DESC_1;
-		} else {
+		else
 			fmt = STR_TETH_ON_DESC_2;
-		}
+
 		str = g_malloc0(MH_LABEL_LENGTH_MAX);
 		if (str == NULL) {
 			ERR("memory allocation is failed\n");
@@ -372,9 +372,8 @@ static void __disable_tethering_by_ind(mh_appdata_t *ad, tethering_disabled_caus
 		break;
 
 	case TETHERING_DISABLED_BY_OTHERS:
-		if (ad->main.wifi_item && _get_vconf_prev_wifi_state() == true) {
+		if (ad->main.wifi_item && _get_vconf_prev_wifi_state() == true)
 			elm_object_item_disabled_set(ad->main.wifi_item, EINA_TRUE);
-		}
 		break;
 
 	case TETHERING_DISABLED_BY_LOW_BATTERY:
@@ -418,8 +417,6 @@ void _enabled_cb(tethering_error_e result, tethering_type_e type, bool is_reques
 		return;
 	}
 
-	if (result != TETHERING_ERROR_NONE) {
-	}
 	_update_main_view(ad, type);
 
 	return;
@@ -455,9 +452,8 @@ void _disabled_cb(tethering_error_e result, tethering_type_e type, tethering_dis
 		return;
 	}
 
-	if (ad->main.wifi_item && type == TETHERING_TYPE_WIFI && _get_vconf_prev_wifi_state() == true) {
+	if (ad->main.wifi_item && type == TETHERING_TYPE_WIFI && _get_vconf_prev_wifi_state() == true)
 		elm_object_item_disabled_set(ad->main.wifi_item, EINA_TRUE);
-	}
 
 	_update_main_view(ad, type);
 
@@ -480,9 +476,8 @@ void _connection_changed_cb(tethering_client_h client, bool is_opened, void *use
 		_append_list_client_handle(ad, client);
 
 #ifdef TETHERING_DATA_USAGE_SUPPORT
-		if (ad->is_foreground && _get_list_clients_count(ad) == 1) {
+		if (ad->is_foreground && _get_list_clients_count(ad) == 1)
 			_start_update_data_packet_usage(ad);
-		}
 #endif
 	} else {
 		tethering_client_get_mac_address(client, &mac_addr);
@@ -510,14 +505,14 @@ void _wifi_state_changed_cb(wifi_device_state_e state, void *user_data)
 
 	DBG("+\n");
 
-	mh_appdata_t *ad= (mh_appdata_t *)user_data;
+	mh_appdata_t *ad = (mh_appdata_t *)user_data;
 	char *str = NULL;
 	char *fmt = NULL;
 	if (state == WIFI_DEVICE_STATE_ACTIVATED) {
 		if (ad->main.wifi_item && elm_object_item_disabled_get(ad->main.wifi_item))
 			elm_object_item_disabled_set(ad->main.wifi_item, EINA_FALSE);
 		_set_vconf_prev_wifi_state(false);
-	} else if (state == WIFI_DEVICE_STATE_DEACTIVATED){
+	} else if (state == WIFI_DEVICE_STATE_DEACTIVATED) {
 		_set_vconf_prev_wifi_state(true);
 	}
 
@@ -527,11 +522,11 @@ void _wifi_state_changed_cb(wifi_device_state_e state, void *user_data)
 		ad->popup_checkbox = NULL;
 		evas_object_del(ad->popup);
 		ad->popup = NULL;
-		if (state == WIFI_DEVICE_STATE_ACTIVATED) {
+		if (state == WIFI_DEVICE_STATE_ACTIVATED)
 			fmt = STR_TETH_ON_DESC_1;
-		} else {
+		else
 			fmt = STR_TETH_ON_DESC_2;
-		}
+
 		str = g_malloc0(MH_LABEL_LENGTH_MAX);
 		if (str == NULL) {
 			ERR("memory allocation is failed\n");
@@ -613,9 +608,8 @@ void _passphrase_changed_cb(void *user_data)
 		return;
 	}
 
-	if (!g_strcmp0(passphrase, ad->setup.wifi_passphrase)) {
+	if (!g_strcmp0(passphrase, ad->setup.wifi_passphrase))
 		goto DONE;
-	}
 
 	g_strlcpy(ad->setup.wifi_passphrase, passphrase,
 		sizeof(ad->setup.wifi_passphrase));

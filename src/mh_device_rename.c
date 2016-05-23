@@ -27,9 +27,9 @@ static void __rename_popup_keyback_cb(void *data, Evas_Object *obj,
 
 	elm_object_focus_set(ad->rename_entry, EINA_FALSE);
 
-	if (ad->rename_popup) {
+	if (ad->rename_popup)
 		evas_object_del(ad->rename_popup);
-	}
+
 	ad->rename_popup = NULL;
 	ad->rename_entry = NULL;
 	__set_rotate_cb(NULL, NULL);
@@ -47,9 +47,9 @@ static void __rename_popup_mouseup_cb(void *data,
 
 	if (ev->button == 3) {
 		elm_object_focus_set(ad->rename_entry, EINA_FALSE);
-		if (ad->rename_popup) {
+		if (ad->rename_popup)
 			evas_object_del(ad->rename_popup);
-		}
+
 		ad->rename_popup = NULL;
 		ad->rename_entry = NULL;
 	}
@@ -60,11 +60,10 @@ static void __rename_popup_mouseup_cb(void *data,
 static bool __is_space_str(const char *str)
 {
 	while (str) {
-		if (*str != '\0' && *str != ' ') {
+		if (*str != '\0' && *str != ' ')
 			return FALSE;
-		} else if (*str == '\0') {
+		else if (*str == '\0')
 			return TRUE;
-		}
 		str++;
 	}
 	return TRUE;
@@ -76,8 +75,8 @@ static void __rename_popop_entry_changed_cb(void *data, Evas_Object *obj,
 	__MOBILE_AP_FUNC_ENTER__;
 	mh_appdata_t *ad = (mh_appdata_t *)data;
 
-	const char *entry_text 	= NULL;
-	char *input_str 		= NULL;
+	const char *entry_text = NULL;
+	char *input_str = NULL;
 	bool is_space_string = FALSE;
 
 	entry_text = elm_entry_entry_get(obj);
@@ -96,9 +95,9 @@ static void __rename_popop_entry_changed_cb(void *data, Evas_Object *obj,
 	if (input_str == NULL || (strlen(input_str) == 0)) {
 		elm_object_disabled_set(ad->rename_button, TRUE);
 		elm_entry_input_panel_return_key_disabled_set(obj, TRUE);
-		if (input_str) {
+		if (input_str)
 			free(input_str);
-		}
+
 		return;
 	}
 
@@ -114,9 +113,9 @@ static void __rename_popop_entry_changed_cb(void *data, Evas_Object *obj,
 		elm_object_disabled_set(ad->rename_button, FALSE);
 		elm_entry_input_panel_return_key_disabled_set(ad->rename_entry, FALSE);
 	}
-	if (input_str) {
+	if (input_str)
 		free(input_str);
-	}
+
 	__MOBILE_AP_FUNC_EXIT__;
 }
 
@@ -135,9 +134,8 @@ static void __device_name_maxlength_reached_cb(void *data, Evas_Object *obj,
 
 	snprintf(buf, sizeof(buf), STR_PW_MAX_LEN_WARN_MSG, DEVICE_NAME_LENGTH_MAX);
 	ret = notification_status_message_post(buf);
-	if (ret != NOTIFICATION_ERROR_NONE) {
+	if (ret != NOTIFICATION_ERROR_NONE)
 		ERR("notification_status_message_post() is failed : %d\n", ret);
-	}
 
 	__MOBILE_AP_FUNC_EXIT__;
 }
@@ -241,9 +239,8 @@ static void __rename_popup_ok_cb(void *data, Evas_Object *obj,
 		ad->rename_entry = NULL;
 	}
 	if (g_strcmp0(ad->setup.device_name, device_name_str)) {
-		if (vconf_set_str(VCONFKEY_SETAPPL_DEVICE_NAME_STR, device_name_str) != 0) {
-			DBG("Set vconf[%s] failed\n",VCONFKEY_SETAPPL_DEVICE_NAME_STR);
-		}
+		if (vconf_set_str(VCONFKEY_SETAPPL_DEVICE_NAME_STR, device_name_str) != 0)
+			DBG("Set vconf[%s] failed\n", VCONFKEY_SETAPPL_DEVICE_NAME_STR);
 
 		g_strlcpy(ad->setup.device_name, entry_str,
 				sizeof(ad->setup.device_name));
@@ -305,9 +302,9 @@ void _hadnle_rename_popup_rotation(Eina_Bool is_portrait)
 	__MOBILE_AP_FUNC_ENTER__;
 
 	__set_portrait_mode(is_portrait);
-	if (rotate_cb) {
+	if (rotate_cb)
 		rotate_cb(is_portrait, rotate_cb_data);
-	}
+
 	__MOBILE_AP_FUNC_EXIT__;
 }
 
@@ -327,9 +324,8 @@ static Evas_Object *__rename_entry_icon_get(void *data, Evas_Object *obj, const 
 	}
 	mh_appdata_t *ad = (mh_appdata_t*) data;
 
-	if (strcmp(part, "elm.icon.entry")) {
+	if (strcmp(part, "elm.icon.entry"))
 		return NULL;
-	}
 
 	entry = elm_entry_add(obj);
 	elm_entry_single_line_set(entry, EINA_TRUE);
@@ -391,9 +387,9 @@ static Evas_Object *__rename_entry_icon_get(void *data, Evas_Object *obj, const 
 static char *__rename_desc_label_get(void *data, Evas_Object *obj,
 					const char *part)
 {
-	if (!strcmp(part, "elm.text.multiline" )) {
+	if (!strcmp(part, "elm.text.multiline"))
 		return g_strdup(STR_RENAME_DEVICE_MSG);
-	}
+
 	return NULL;
 }
 
