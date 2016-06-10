@@ -52,7 +52,6 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED ${SRCS})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${pkgs_LDFLAGS})
 
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION /usr/apps/ug-setting-mobileap-efl/lib/ug)
-INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/ug-setting-mobileap-efl.efl DESTINATION /etc/smack/accesses.d)
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/ug-setting-mobileap-efl.xml DESTINATION /usr/share/packages/)
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/help_setting_tethering.xml DESTINATION /usr/apps/ug-setting-mobileap-efl/res/help/ug-setting-mobileap-efl/)
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/resources/images/org.tizen.tethering.png DESTINATION ${IMGDIR})

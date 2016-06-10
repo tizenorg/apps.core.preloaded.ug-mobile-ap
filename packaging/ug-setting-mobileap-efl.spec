@@ -3,7 +3,7 @@
 
 Name:		ug-setting-mobileap-efl
 Summary:	Tethering UI Gadget Library
-Version:	1.0.138
+Version:	1.0.139
 Release:	1
 Group:		App/Network
 License:	Flora-1.1
@@ -64,7 +64,6 @@ chsmack -a "_" /usr/apps/ug-setting-mobileap-efl/bin/
 
 %files
 %manifest ug-setting-mobileap-efl.manifest
-/etc/smack/accesses.d/ug-setting-mobileap-efl.efl
 %defattr(-,root,root,-)
 /usr/ug/res/locale/*/LC_MESSAGES/ug-setting-mobileap-efl*
 /usr/ug/res/images/ug-setting-mobileap-efl/*.png
