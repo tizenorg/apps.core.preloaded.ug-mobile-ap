@@ -3,7 +3,7 @@
 
 Name:		ug-setting-mobileap-efl
 Summary:	Tethering UI Gadget Library
-Version:	1.0.139
+Version:	1.0.140
 Release:	1
 Group:		App/Network
 License:	Flora-1.1
@@ -23,7 +23,10 @@ BuildRequires:	pkgconfig(capi-network-wifi)
 BuildRequires:	pkgconfig(capi-network-tethering)
 BuildRequires:	pkgconfig(capi-network-connection)
 BuildRequires:	pkgconfig(notification)
+BuildRequires:	pkgconfig(aul)
+BuildRequires:	pkgconfig(bundle)
 BuildRequires:	pkgconfig(efl-extension)
+BuildRequires:	pkgconfig(dpm)
 BuildRequires:	cmake
 BuildRequires:	edje-bin
 BuildRequires:	gettext-tools

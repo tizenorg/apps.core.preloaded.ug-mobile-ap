@@ -36,6 +36,7 @@ void _destroy_popup(mh_appdata_t *ad);
 void _teth_on(mh_appdata_t* ad);
 void _prepare_popup_type(int type);
 void _handle_mobile_data_onoff(mh_appdata_t *ad);
+void _create_security_restriction_noti(tethering_type_e type);
 
 #ifdef __cplusplus
 }

@@ -20,6 +20,7 @@
 #include <time.h>
 #include <limits.h>
 #include <efl_extension.h>
+#include <dpm/restriction.h>
 
 #include "mh_view_main.h"
 #include "mh_popup.h"
@@ -573,10 +574,56 @@ void _update_main_view(mh_appdata_t *ad, tethering_type_e type)
 	return;
 }
 
+static int __is_allowed(tethering_type_e type)
+{
+	int state = 0;
+	dpm_context_h context = NULL;
+	dpm_restriction_policy_h policy = NULL;
+
+	context = dpm_context_create();
+	if (context == NULL) {
+		ERR("Failed to create dpm context!!");
+		return 0;
+	}
+
+	policy = dpm_context_acquire_restriction_policy(context);
+	if (policy == NULL) {
+		ERR("Failed to create policy handle");
+		dpm_context_destroy(context);
+		return 0;
+	}
+
+	switch(type) {
+		case TETHERING_TYPE_WIFI:
+			dpm_restriction_get_wifi_hotspot_state(policy, &state);
+			break;
+		case TETHERING_TYPE_USB:
+			dpm_restriction_get_usb_tethering_state(policy, &state);
+			break;
+		case TETHERING_TYPE_BT:
+			dpm_restriction_get_bluetooth_tethering_state(policy, &state);
+			break;
+		default:
+			break;
+	}
+
+	dpm_context_release_restriction_policy(context, policy);
+	dpm_context_destroy(context);
+
+	return state;
+}
+
 static void __wifi_onoff_changed_cb(void *data, Evas_Object *obj,
 							void *event_info)
 {
 	__MOBILE_AP_FUNC_ENTER__;
+
+	if (!__is_allowed(TETHERING_TYPE_WIFI)) {
+		ERR("Wi-Fi tethering is restricted!!");
+		elm_check_state_set(obj, EINA_FALSE);
+		_create_security_restriction_noti(TETHERING_TYPE_WIFI);
+		return;
+	}
 
 	if (data == NULL) {
 		ERR("The param is NULL\n");
@@ -620,6 +667,13 @@ static void __select_wifi_item(void *data, Evas_Object *obj, void *event_info)
 static void __bt_onoff_changed_cb(void *data, Evas_Object *obj, void *event_info)
 {
 	__MOBILE_AP_FUNC_ENTER__;
+
+	if (!__is_allowed(TETHERING_TYPE_BT)) {
+		ERR("BT tethering is restricted!!");
+		elm_check_state_set(obj, EINA_FALSE);
+		_create_security_restriction_noti(TETHERING_TYPE_BT);
+		return;
+	}
 
 	if (data == NULL) {
 		ERR("The param is NULL\n");
@@ -668,6 +722,13 @@ static void __select_bt_item(void *data, Evas_Object *obj, void *event_info)
 static void __usb_onoff_changed_cb(void *data, Evas_Object *obj, void *event_info)
 {
 	__MOBILE_AP_FUNC_ENTER__;
+
+	if (!__is_allowed(TETHERING_TYPE_USB)) {
+		ERR("USB tethering is restricted!!");
+		elm_check_state_set(obj, EINA_FALSE);
+		_create_security_restriction_noti(TETHERING_TYPE_USB);
+		return;
+	}
 
 	if (data == NULL) {
 		ERR("The param is NULL\n");
