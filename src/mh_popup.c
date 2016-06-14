@@ -19,11 +19,16 @@
 
 #include <efl_extension.h>
 #include <app_control_internal.h>
+#include <bundle.h>
+#include <syspopup_caller.h>
 
 #include "mh_common_utility.h"
 #include "mobile_hotspot.h"
 #include "mh_popup.h"
 #include "mh_string.h"
+
+#define MAX_BUF_SIZE	(256u)
+#define NETPOPUP		"net-popup"
 
 static mh_popup_type_e popup_type = MH_POPUP_NONE;
 static Evas_Object *popup_content = NULL;
@@ -623,5 +628,40 @@ void _destroy_popup(mh_appdata_t *ad)
 
 	__MOBILE_AP_FUNC_EXIT__;
 
+	return;
+}
+
+void _create_security_restriction_noti(tethering_type_e type)
+{
+	bundle *b = NULL;
+	char restricted_type[MAX_BUF_SIZE] = {0, };
+	int ret;
+
+	switch (type) {
+		case TETHERING_TYPE_WIFI:
+			g_strlcpy(restricted_type, "wifi tethering", MAX_BUF_SIZE - 1);
+			break;
+		case TETHERING_TYPE_USB:
+			g_strlcpy(restricted_type, "usb tethering", MAX_BUF_SIZE - 1);
+			break;
+		case TETHERING_TYPE_BT:
+			g_strlcpy(restricted_type, "bt tethering", MAX_BUF_SIZE - 1);
+			break;
+		default:
+			ERR("Invalid type.\n");
+			return;
+	}
+	b = bundle_create();
+
+	bundle_add(b, "_SYSPOPUP_TYPE_", "toast_popup");
+	bundle_add(b, "_SYSPOPUP_CONTENT_", "security restriction");
+	bundle_add(b, "_RESTRICTED_TYPE_", restricted_type);
+
+	DBG("Launch security restriction alert network popup");
+	ret = syspopup_launch(NETPOPUP, b);
+	if (ret < 0)
+		ERR("Fail to launch syspopup");
+
+	bundle_free(b);
 	return;
 }

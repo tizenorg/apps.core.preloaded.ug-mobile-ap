@@ -27,7 +27,7 @@ ENDIF (TIZEN_FEATURE_DUALSIM_ENABLE)
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-SET(dependents "elementary evas ui-gadget-1 capi-network-tethering capi-network-connection capi-network-wifi notification efl-extension")
+SET(dependents "elementary evas ui-gadget-1 capi-network-tethering capi-network-connection capi-network-wifi notification syspopup-caller bundle efl-extension dpm")
 
 SET(CMAKE_BUILD_TYPE "Release")
 
