@@ -20,6 +20,7 @@
 #include <efl_extension.h>
 #include <app_control_internal.h>
 #include <bundle.h>
+#include <bundle_internal.h>
 #include <aul.h>
 
 #include "mh_common_utility.h"
